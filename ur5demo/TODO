@@ -1,0 +1,19 @@
+- Add support for gamepad (OK)
+- Make another loop?
+- Make user for robot demo (give sudo) (OK)
+- Make script, place at desktop (OK)
+- Add author
+- Run tests. (OK)
+(write manual)
+
+TESTS:
+- Test with router connected to internjet (PASSED)
+- Shutdown everything, restart. (without network) (PASSED, but maybe requires to change IP)
+- Test manual control, especially boundaries and force monitor. (PASSED)
+- Test loops. (PASSED)
+
+Provoke exceptions that can halt the demo app:
+	Press stop on tablet during loop, manual control and menu (PASSED, but requires to restart the robot.)
+	Provoke security stop --------------''----------------- (PASSED. When looping, exit and restart the loop. It doesnt pick up where it left.)
+	Shutdown robot -------------------''------------------- (PASSED. The application can continue withour restart when rebooting the robot)
+	Close application ----------------''------------------ (PASSED)
