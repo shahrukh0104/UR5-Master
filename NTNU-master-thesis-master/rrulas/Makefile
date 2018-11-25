@@ -8,7 +8,7 @@ CFLAGS = -g -Wall
 LDFLAGS = -g -lrt -pthread -L/usr/local/lib -lgsl -lgslcblas -lm
  
 # list of sources
-SOURCES = rrulas.cpp \
+SOURCES = TremSup.cpp \
 	../kinematics/ur_kin.cpp \
 	../ur_modern_driver-master/src/ur_driver.cpp \
 	../ur_modern_driver-master/src/robot_state.cpp \
