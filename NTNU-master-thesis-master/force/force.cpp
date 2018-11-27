@@ -167,6 +167,7 @@ void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 	gsl_linalg_LU_decomp(A,p,&signum);
 
 	gsl_linalg_LU_solve(A,p,vw_w,x);
+	
 	for (int k=0;k<6;k++)
 	{
 		qd[k] = gsl_vector_get(x,k); 
@@ -219,7 +220,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double vw[6] = {0,0,0,0,0,0};
 
 	//End-effector tool bias: a constant mounting bias and a dynamic gravity bias.
-	double bias_tool_WF[3] = {0, 0, -0.5886};//-0.5886[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
+	double bias_tool_WF[3] = {0, 0, -1.376};//-0.5886[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
 	double bias_tool_TF[3]; //Gravitational force of end-effector tool in tool frame ('_TF').
 
 
@@ -245,12 +246,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	
 	//PID controller gain parameters
 	Kp = 0.005;// Prefered between [0.005-0.006]
-	//Ki = 0; // Not prefered due to overshoot behaviour.
-	//Kd = 0; // Not prefered due to noise amplification
+	//Ki = 0.00001; // Not prefered due to overshoot behaviour.
+	//Kd = 0.000075; // Not prefered due to noise amplification
 	
 	Kp_T = 0.4;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
-	//Kd_T = 0; // Not prefered due to noise amplification.
+	//Kd_T = 0.005; // Not prefered due to noise amplification.
 	
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
@@ -277,9 +278,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		double elaps_time = time_stamp-start_time;
 				  
 		std::vector<double> q = ur5->rt_interface_->robot_state_->getQActual();
-		//std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
-		//std::vector<double> qdd_target = ur5->rt_interface_->robot_state_->getQddTarget()
-		//std::vector<double> tcp_speed = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
+		std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
+		std::vector<double> qdd_target = ur5->rt_interface_->robot_state_->getQddTarget();
+		std::vector<double> tcp_speed = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
    		
    		tfrotype tfkin;
 		R->data=tfkin.R;
@@ -320,8 +321,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 			integrator_Fx = integrator_Fx/1.2;
 			integrator_Fy = integrator_Fy/1.2;
 			integrator_Fz = integrator_Fz/1.2;
-			
-			
 		}
 		else
 		{	
@@ -461,10 +460,10 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		
 		//DATA LOGGING
-		//Currently 67 variables
+		//Currently 58 variables
 		forcelog << elaps_time << " " << speed[0] << " " << speed[1] << " " << speed[2] << " " << speed[3] << " " << speed[4] << " " << speed[5] << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << " " << q[4] << " " << q[5] << " " << rawFTdata[0] << " " << rawFTdata[1] << " " << rawFTdata[2] << " " << rawFTdata[3] << " " << rawFTdata[4] << " " << rawFTdata[5] << " " << forces[0] << " " << forces[1] << " " << forces[2] << " " << torques[0] << " " << torques[1] << " " << torques[2] << " " << error_Fx << " " << error_Fy << " " << error_Fz << " " << error_Tx << " " << error_Ty << " " << error_Tz << " " << u_Fx << " " << u_Fy << " " << u_Fz << " " << u_Tx << " " << u_Ty << " " << u_Tz << " " << bias_force[0] << " " << bias_force[1] << " " << bias_force[2] << " "  << bias_tool_TF[0] << " " << bias_tool_TF[1] << " " << bias_tool_TF[2] << " " << gsl_vector_get(O,0) << " " << gsl_vector_get(O,1) << " " << gsl_vector_get(O,2) << " " << disturbances[0] << " " << disturbances[1] << " " << disturbances[2] << " " << gsl_matrix_get(R,0,0) << " " << gsl_matrix_get(R,0,1) << " " << gsl_matrix_get(R,0,2) << " " << gsl_matrix_get(R,1,0) << " " << gsl_matrix_get(R,1,1) << " " << gsl_matrix_get(R,1,2) << " " << gsl_matrix_get(R,2,0) << " " << gsl_matrix_get(R,2,1) << " " << gsl_matrix_get(R,2,2) << " " << "\n";
-		
-		
+
+
 		i = i+1;
 		usleep(iteration_sleeptime);
 		
