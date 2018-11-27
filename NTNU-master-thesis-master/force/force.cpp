@@ -220,7 +220,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double vw[6] = {0,0,0,0,0,0};
 
 	//End-effector tool bias: a constant mounting bias and a dynamic gravity bias.
-	double bias_tool_WF[3] = {0, 0, -1.376};//-0.5886[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
+	double bias_tool_WF[3] = {0, 0,0};//-0.5886[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
 	double bias_tool_TF[3]; //Gravitational force of end-effector tool in tool frame ('_TF').
 
 
