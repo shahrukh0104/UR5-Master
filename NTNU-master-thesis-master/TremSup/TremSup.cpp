@@ -196,7 +196,9 @@ int main()
 
 	//q_start -> Starting position with a desired pose and good range of motion in current laboratory setup
 	double q_start[6] = {0.2091, -2.3496, -2.1545, -1.7428, -1.4132, 1.57};
-	
+	double q_start_tuner_testing[6] = {0.436651, -2.44096, -1.77064, -3.66515, -1.54962, 1.81438};
+	double q_start_torque_tuner_testing[6] = {0.494249, -2.11781, -2.26401, -1.88373, -1.27904, 1.61357};
+
 	char user_ready;
 	while(user_ready != 'y' || user_ready != 'Y')
 	{
@@ -208,17 +210,13 @@ int main()
 			// MOVE TO STARING POINT
 			std::cout << "======================== POSITION CONTROL ACTIVE ========================" << std::endl;
 			std::cout << "Moving to staring location... ";
-			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start, 1, 1);
+			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start_tuner_testing, 1, 1);
 			break;
 		}
 	}
 	
 	// FORCE CONTROL
-	double force_mode = 1;
-	double force_threshold = 0;
-	double torque_threshold = 0;
-	double user_parameters[6] = {0,0,0,0,0,0}; //Fx, Fy, Fz, Tx, Ty, Tz
-	double safety_timeout = 200; //[s]
+	double safety_timeout = 5; //[s]
 	char user_status;
 	
 	while(user_status != 'y' || user_status != 'Y')
@@ -231,7 +229,7 @@ int main()
 
 	std::cout << "Initializing force control... \n" << std::endl;
 	pthread_t forceID;
-	forceControl(&ur5, &rt_msg_cond_, safety_timeout, force_mode, user_parameters, force_threshold, torque_threshold);
+	forceControl(&ur5, &rt_msg_cond_, safety_timeout);
 	
 	//usleep(1000);
 	//std::cout << "Shutting down force control. \n";

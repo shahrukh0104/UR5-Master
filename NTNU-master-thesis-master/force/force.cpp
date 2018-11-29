@@ -186,7 +186,7 @@ void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 	}
 }
 
-void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time, int force_mode, double user_parameters[6], double f_ref, double t_ref)
+void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)
 {
 	pthread_t forceID;
 	startFT(&forceID);	
@@ -226,7 +226,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	double theta;
-	double angle_max = M_PI/2;//unit [rad]
+	//double angle_max = M_PI/2;//unit [rad]
 	
 	
 	double start_time = ur5->rt_interface_->robot_state_->getTime();
@@ -245,7 +245,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
-	Kp = 0.005;// Prefered between [0.005-0.006]
+	Kp = 0.00025;// Prefered between [0.005-0.006]
 	//Ki = 0.00001; // Not prefered due to overshoot behaviour.
 	//Kd = 0.000075; // Not prefered due to noise amplification
 	
@@ -258,10 +258,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
 	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.0823};
 	
-	double disturbances[6] = {0,0,0,0,0,0};
-	srand(time(NULL));
-	double random_duration = rand() % 375 + 125;
-	double random_disturbances[6] = {0,0,0,0,0,0};
 
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
@@ -312,7 +308,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
    		error_Fx = error_Fy = error_Fz = 0; //Unsessesary, but safety first.
    		
    		//FORCE ERROR UPDATES
-   		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
+   		if(fabs(forces[0]) < 0 && fabs(forces[1]) < 0 && fabs(forces[2]) < 0) // Dead-band filter, cut-off at 1N
    		{
 			error_Fx = error_Fx/1.2; //Gentle step-down
 			error_Fy = error_Fy/1.2;
@@ -350,39 +346,30 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 		
 		//SAFETY MECHANISM 
-		if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
-		{
-			std::cout << "============================= STOPPING! ============================" << std::endl;
-			ur5->halt();
-			std::cout << "Force levels too large - force control halted!" << std::endl;
-			break;
-		}
+		// if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
+		// {
+		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
+		// 	ur5->halt();
+		// 	std::cout << "Force levels too large - force control halted!" << std::endl;
+		// 	break;
+		// }
 		
-		if(fabs(error_Tx) > 8 || fabs(error_Ty) > 8 || fabs(error_Tz) > 8)
-		{
-			std::cout << "============================= STOPPING! ============================" << std::endl;
-			ur5->halt();
-			std::cout << "Torque levels too large - force control halted!" << std::endl;
-			break;
-		}
+		// if(fabs(error_Tx) > 8 || fabs(error_Ty) > 8 || fabs(error_Tz) > 8)
+		// {
+		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
+		// 	ur5->halt();
+		// 	std::cout << "Torque levels too large - force control halted!" << std::endl;
+		// 	break;
+		// }
 		
-		if(fabs(q[3]) > fabs(sq[3])+angle_max*2 || fabs(q[4]) > fabs(sq[4])+angle_max*2 || fabs(q[5]) > fabs(sq[5])+angle_max*2)
-		{
-			std::cout << "============================= STOPPING! ============================" << std::endl;
-			ur5->halt();
-			std::cout << "Joint angle too large  - force control halted!" << std::endl;
-			break;
-		}
+		// if(fabs(q[3]) > fabs(sq[3])+angle_max*2 || fabs(q[4]) > fabs(sq[4])+angle_max*2 || fabs(q[5]) > fabs(sq[5])+angle_max*2)
+		// {
+		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
+		// 	ur5->halt();
+		// 	std::cout << "Joint angle too large  - force control halted!" << std::endl;
+		// 	break;
+		// }
 		
-		//GENERATING RANDOM DISTURANCES
-		if (force_mode == 3 && random_duration < 1) 
-		{
-			for (int j = 0; j<6; j++)
-			{
-				random_disturbances[j] = (rand() % 30)-15; //Force between -15 and 14 Newton 
-			}
-			random_duration = rand() % 500 + 250; //Duration between 2-4 seconds
-		}
 		
 		//=============== CONTROLLER =====================
 		//Translational forces - 3DOF
@@ -413,21 +400,21 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		
 		//SAFETY MECHANISM 
-		if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5 || fabs(u_Fz) > 5)
-		{
-			std::cout << "============================= STOPPING! ============================" << std::endl;
-			ur5->halt();
-			std::cout << "Force control input too large - stopping force control!" << std::endl;
-			break;
-		}
+		// if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5 || fabs(u_Fz) > 5)
+		// {
+		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
+		// 	ur5->halt();
+		// 	std::cout << "Force control input too large - stopping force control!" << std::endl;
+		// 	break;
+		// }
 		
-		if(fabs(u_Tx) > 5 || fabs(u_Ty) > 5 || fabs(u_Tz) > 5)
-		{
-			std::cout << "============================= STOPPING! ============================" << std::endl;
-			ur5->halt();
-			std::cout << "Torque control input too large - stopping force control!" << std::endl;
-			break;
-		}
+		// if(fabs(u_Tx) > 5 || fabs(u_Ty) > 5 || fabs(u_Tz) > 5)
+		// {
+		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
+		// 	ur5->halt();
+		// 	std::cout << "Torque control input too large - stopping force control!" << std::endl;
+		// 	break;
+		// }
 		
 		//Clear all referances
 		for (int j = 0; j<6; j++)
@@ -435,16 +422,15 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 			references[j] = 0;
 		}
 		
+		references[2] = 2;
+
 		//FORCE MODES
-		if(force_mode == 1) //Compliance mode
-		{
-			vw[0] = u_Fx;
-			vw[1] = u_Fy; 
-			vw[2] = u_Fz; 
-			vw[3] = u_Tx;
-			vw[4] = u_Ty;
-			vw[5] = u_Tz;
-		}
+		vw[0] = u_Fx;
+		vw[1] = u_Fy; 
+		vw[2] = u_Fz; 
+		vw[3] = u_Tx;
+		vw[4] = u_Ty;
+		vw[5] = u_Tz;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();
@@ -460,8 +446,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		
 		//DATA LOGGING
-		//Currently 58 variables
-		forcelog << elaps_time << " " << speed[0] << " " << speed[1] << " " << speed[2] << " " << speed[3] << " " << speed[4] << " " << speed[5] << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << " " << q[4] << " " << q[5] << " " << rawFTdata[0] << " " << rawFTdata[1] << " " << rawFTdata[2] << " " << rawFTdata[3] << " " << rawFTdata[4] << " " << rawFTdata[5] << " " << forces[0] << " " << forces[1] << " " << forces[2] << " " << torques[0] << " " << torques[1] << " " << torques[2] << " " << error_Fx << " " << error_Fy << " " << error_Fz << " " << error_Tx << " " << error_Ty << " " << error_Tz << " " << u_Fx << " " << u_Fy << " " << u_Fz << " " << u_Tx << " " << u_Ty << " " << u_Tz << " " << bias_force[0] << " " << bias_force[1] << " " << bias_force[2] << " "  << bias_tool_TF[0] << " " << bias_tool_TF[1] << " " << bias_tool_TF[2] << " " << gsl_vector_get(O,0) << " " << gsl_vector_get(O,1) << " " << gsl_vector_get(O,2) << " " << disturbances[0] << " " << disturbances[1] << " " << disturbances[2] << " " << gsl_matrix_get(R,0,0) << " " << gsl_matrix_get(R,0,1) << " " << gsl_matrix_get(R,0,2) << " " << gsl_matrix_get(R,1,0) << " " << gsl_matrix_get(R,1,1) << " " << gsl_matrix_get(R,1,2) << " " << gsl_matrix_get(R,2,0) << " " << gsl_matrix_get(R,2,1) << " " << gsl_matrix_get(R,2,2) << " " << "\n\n\n\n";
+		//Currently 55 variables
+		forcelog << elaps_time << " " << speed[0] << " " << speed[1] << " " << speed[2] << " " << speed[3] << " " << speed[4] << " " << speed[5] << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << " " << q[4] << " " << q[5] << " " << rawFTdata[0] << " " << rawFTdata[1] << " " << rawFTdata[2] << " " << rawFTdata[3] << " " << rawFTdata[4] << " " << rawFTdata[5] << " " << forces[0] << " " << forces[1] << " " << forces[2] << " " << torques[0] << " " << torques[1] << " " << torques[2] << " " << error_Fx << " " << error_Fy << " " << error_Fz << " " << error_Tx << " " << error_Ty << " " << error_Tz << " " << u_Fx << " " << u_Fy << " " << u_Fz << " " << u_Tx << " " << u_Ty << " " << u_Tz << " " << bias_force[0] << " " << bias_force[1] << " " << bias_force[2] << " "  << bias_tool_TF[0] << " " << bias_tool_TF[1] << " " << bias_tool_TF[2] << " " << gsl_vector_get(O,0) << " " << gsl_vector_get(O,1) << " " << gsl_vector_get(O,2) << " " << gsl_matrix_get(R,0,0) << " " << gsl_matrix_get(R,0,1) << " " << gsl_matrix_get(R,0,2) << " " << gsl_matrix_get(R,1,0) << " " << gsl_matrix_get(R,1,1) << " " << gsl_matrix_get(R,1,2) << " " << gsl_matrix_get(R,2,0) << " " << gsl_matrix_get(R,2,1) << " " << gsl_matrix_get(R,2,2) << " " << "\n\n\n\n";
 
 
 		i = i+1;
