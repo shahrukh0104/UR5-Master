@@ -6,7 +6,7 @@ close all;
 clear all;
 %% Load data from test 1
 fileID = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.10');
-dim = 46; %time(1), q(6), s(6), etc..
+dim = 55; %time(1), q(6), s(6), etc..
 data_format = repmat('%f ', 1, dim);
 raw_data = textscan(fileID, data_format); %Remember to delete any incomplete log entries in the final row.
 %[N, M] = size(raw_data{1,1});
