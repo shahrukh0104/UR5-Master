@@ -245,7 +245,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
-	Kp = 0.00025;// Prefered between [0.005-0.006]
+	Kp = 0.005;// Prefered between [0.005-0.006]
 	//Ki = 0.00001; // Not prefered due to overshoot behaviour.
 	//Kd = 0.000075; // Not prefered due to noise amplification
 	
@@ -451,9 +451,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 		i = i+1;
-		usleep(iteration_sleeptime);
-		
-		
+		usleep(iteration_sleeptime);		
 	}	
 	
 	//stopFT(&forceID);
