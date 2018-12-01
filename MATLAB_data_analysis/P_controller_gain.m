@@ -5,7 +5,7 @@ clc;
 close all;
 clear all;
 %% Load data from test 1
-fileID = fopen('../data/log_library/controller_gain_estimation_force/P-controller/Kp=0.005');
+fileID = fopen('../data/log_library/controller_gain_estimation_force/P-controller/forcelog');
 dim = 55; %time(1), q(6), s(6), etc..
 data_format = repmat('%f ', 1, dim);
 raw_data = textscan(fileID, data_format); %Remember to delete any incomplete log entries in the final row.
