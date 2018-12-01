@@ -1,8 +1,0 @@
-Based on tests.
-
-After security stop (red button), shut down and restart robot.
-After stop during loop, exit and restart loop. (The robot doesnt continue where it stopped)
-
-
-When running the application, the robot has to be initialized (all lights green or teach mode)
-When the application exits normally, the robot is set to freedrive mode (TEACH on tablet)
