@@ -308,23 +308,26 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
    		error_Fx = error_Fy = error_Fz = 0; //Unsessesary, but safety first.
    		
    		//FORCE ERROR UPDATES
-   		if(fabs(forces[0]) < 0 && fabs(forces[1]) < 0 && fabs(forces[2]) < 0) // Dead-band filter, cut-off at 1N
-   		{
-			error_Fx = error_Fx/1.2; //Gentle step-down
-			error_Fy = error_Fy/1.2;
-			error_Fz = error_Fz/1.2;
+  //  		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
+  //  		{
+		// 	error_Fx = error_Fx/1.2; //Gentle step-down
+		// 	error_Fy = error_Fy/1.2;
+		// 	error_Fz = error_Fz/1.2;
 			
-			integrator_Fx = integrator_Fx/1.2;
-			integrator_Fy = integrator_Fy/1.2;
-			integrator_Fz = integrator_Fz/1.2;
-		}
-		else
-		{	
-			error_Fx = references[0] + forces[0];
-			error_Fy = references[1] + forces[1];
-			error_Fz = references[2] + forces[2];
-		}
-		
+		// 	integrator_Fx = integrator_Fx/1.2;
+		// 	integrator_Fy = integrator_Fy/1.2;
+		// 	integrator_Fz = integrator_Fz/1.2;
+		// }
+		// else
+		// {	
+		// 	error_Fx = references[0] + forces[0];
+		// 	error_Fy = references[1] + forces[1];
+		// 	error_Fz = references[2] + forces[2];
+		// }
+		error_Fx = references[0] + forces[0];
+		error_Fy = references[1] + forces[1];
+		error_Fz = references[2] + forces[2];
+
 		error_Tx = error_Ty = error_Tz = 0;
 		//TORQUE ERROR UPDATES
 		if(fabs(torques[0]) < 0.5 && fabs(torques[1]) < 0.5 && fabs(torques[2]) < 0.5)
