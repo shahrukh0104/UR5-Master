@@ -66,14 +66,14 @@ void *getFTData(void *arg)
 		}
 
 
-		double Fy = (double)resp.FTData[0]/scale_factor;
-		double Fx = (double)resp.FTData[1]/scale_factor;
+		double Fx = (double)resp.FTData[0]/scale_factor;
+		double Fy = (double)resp.FTData[1]/scale_factor;
 		double Fz = (double)resp.FTData[2]/scale_factor;
-		double Ty = (double)resp.FTData[3]/scale_factor;
-		double Tx = (double)resp.FTData[4]/scale_factor;
+		double Tx = (double)resp.FTData[3]/scale_factor;
+		double Ty = (double)resp.FTData[4]/scale_factor;
 		double Tz = (double)resp.FTData[5]/scale_factor;
 	
-		rawFTdata[1] = -Fy; rawFTdata[0] = Fx; rawFTdata[2] = Fz; rawFTdata[3] = Tx; rawFTdata[4] = -Ty; rawFTdata[5] = Tz;
+		rawFTdata[0] = Fx; rawFTdata[1] = Fy; rawFTdata[2] = Fz; rawFTdata[3] = Tx; rawFTdata[4] = Ty; rawFTdata[5] = Tz;
 		usleep(3800); // sample raw data faster then 4000 microseconds ~ 250 Hz is current FT broadcast frequency
 	}
 }
@@ -308,27 +308,26 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
    		error_Fx = error_Fy = error_Fz = 0; //Unsessesary, but safety first.
    		
    		//FORCE ERROR UPDATES
-  //  		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
-  //  		{
-		// 	error_Fx = error_Fx/1.2; //Gentle step-down
-		// 	error_Fy = error_Fy/1.2;
-		// 	error_Fz = error_Fz/1.2;
+   		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
+   		{
+			error_Fx = error_Fx/1.2; //Gentle step-down
+			error_Fy = error_Fy/1.2;
+			error_Fz = error_Fz/1.2;
 			
-		// 	integrator_Fx = integrator_Fx/1.2;
-		// 	integrator_Fy = integrator_Fy/1.2;
-		// 	integrator_Fz = integrator_Fz/1.2;
-		// }
-		// else
-		// {	
-		// 	error_Fx = references[0] + forces[0];
-		// 	error_Fy = references[1] + forces[1];
-		// 	error_Fz = references[2] + forces[2];
-		// }
-		error_Fx = references[0] + forces[0];
-		error_Fy = references[1] + forces[1];
-		error_Fz = references[2] + forces[2];
+			integrator_Fx = integrator_Fx/1.2;
+			integrator_Fy = integrator_Fy/1.2;
+			integrator_Fz = integrator_Fz/1.2;
+		}
+		else
+		{	
+			error_Fx = references[0] + forces[0];
+			error_Fy = references[1] + forces[1];
+			error_Fz = references[2] + forces[2];
+		}
 
-		error_Tx = error_Ty = error_Tz = 0;
+
+		error_Tx  = error_Tz = 0;
+		error_Ty = 0.5;
 		//TORQUE ERROR UPDATES
 		if(fabs(torques[0]) < 0.5 && fabs(torques[1]) < 0.5 && fabs(torques[2]) < 0.5)
 		{
@@ -343,11 +342,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		else
 		{
 			error_Tx = torques[0];
-			error_Ty = torques[1];
+			error_Ty = torques[1]; 
 	   		error_Tz = torques[2];
 		}
 
-		
+
 		//SAFETY MECHANISM 
 		// if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
 		// {
@@ -420,20 +419,19 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// }
 		
 		//Clear all referances
-		for (int j = 0; j<6; j++)
-		{
-			references[j] = 0;
-		}
-		
-		references[2] = 2;
+		// for (int j = 0; j<6; j++)
+		// {
+		// 	references[j] = 0;
+		// }
+
 
 		//FORCE MODES
-		vw[0] = u_Fx;
-		vw[1] = u_Fy; 
-		vw[2] = u_Fz; 
-		vw[3] = u_Tx;
+		vw[0] = 0;
+		vw[1] = 0; 
+		vw[2] = 0; 
+		vw[3] = 0;
 		vw[4] = u_Ty;
-		vw[5] = u_Tz;
+		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();
