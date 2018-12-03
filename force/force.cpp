@@ -342,7 +342,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		else
 		{
 			error_Tx = torques[0];
-			error_Ty = torques[1]; 
+			error_Ty = torques[1] + references[4]; 
 	   		error_Tz = torques[2];
 		}
 
