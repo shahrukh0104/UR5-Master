@@ -215,7 +215,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double u_Tx = 0, u_Ty = 0, u_Tz = 0;
 	
 	//=======================================================================
-	double references[6] = {0,0,0,0,0,0}; //ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
+	double references[6] = {0,0,0,0,0.5,0}; //ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
 	double speed[6] = {0,0,0,0,0,0};
 	double vw[6] = {0,0,0,0,0,0};
 
