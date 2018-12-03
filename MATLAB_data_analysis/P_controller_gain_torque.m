@@ -5,7 +5,7 @@ clc;
 close all;
 clear all;
 %% Load data from test 1
-fileID = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.10');
+fileID = fopen('../data/log_library/controller_gain_estimation_torque/P-controller-torque/forcelog');
 dim = 55; %time(1), q(6), s(6), etc..
 data_format = repmat('%f ', 1, dim);
 raw_data = textscan(fileID, data_format); %Remember to delete any incomplete log entries in the final row.
@@ -29,44 +29,47 @@ biasForce = data(:, 41:43);
 tool_coordinates = data(:, 44:46);
 
 %% Load data from test 2
-fileID1 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.25');
-raw_data1 = textscan(fileID1, data_format); %Remember to delete any incomplete log entries in the final row.
-data1 = cell2mat(raw_data1); %Convert cell array
-fclose(fileID1);
-
-elapsTime1 = data1(:,1);
-Torques1 = data1(:, 23:25);
-errors_F1 = data1(:, 26:28);
+% fileID1 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.25');
+% raw_data1 = textscan(fileID1, data_format); %Remember to delete any incomplete log entries in the final row.
+% data1 = cell2mat(raw_data1); %Convert cell array
+% fclose(fileID1);
+% 
+% elapsTime1 = data1(:,1);
+% Torques1 = data1(:, 23:25);
+% errors_F1 = data1(:, 26:28);
 
 %% Load data from test 3
-fileID2 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.50');
-raw_data2 = textscan(fileID2, data_format); %Remember to delete any incomplete log entries in the final row.
-data2 = cell2mat(raw_data2); %Convert cell array
-fclose(fileID2);
-
-elapsTime2 = data2(:,1);
-Torques2 = data2(:, 23:25);
-errors_F2 = data2(:, 26:28);
+% fileID2 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.50');
+% raw_data2 = textscan(fileID2, data_format); %Remember to delete any incomplete log entries in the final row.
+% data2 = cell2mat(raw_data2); %Convert cell array
+% fclose(fileID2);
+% 
+% elapsTime2 = data2(:,1);
+% Torques2 = data2(:, 23:25);
+% errors_F2 = data2(:, 26:28);
 
 %% Load data from test 4
-fileID3 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.75');
-raw_data3 = textscan(fileID3, data_format); %Remember to delete any incomplete log entries in the final row.
-data3 = cell2mat(raw_data3); %Convert cell array
-fclose(fileID3);
+% fileID3 = fopen('datalogs/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.75');
+% raw_data3 = textscan(fileID3, data_format); %Remember to delete any incomplete log entries in the final row.
+% data3 = cell2mat(raw_data3); %Convert cell array
+% fclose(fileID3);
+% 
+% elapsTime3 = data3(:,1);
+% Torques3 = data3(:, 23:25);
+% errors_F3 = data3(:, 26:28);
+% Forces3 = data(:, 20:22);
 
-elapsTime3 = data3(:,1);
-Torques3 = data3(:, 23:25);
-errors_F3 = data3(:, 26:28);
 
 %% Plot step response
 figure('Name','Step response test');
 plot(elapsTime(:), Torques(:,3));
 hold on;
 plot(elapsTime(:), Torques(:,3));
-plot(elapsTime1(:), Torques1(:,3));
-plot(elapsTime2(:), Torques2(:,3));
-plot(elapsTime3(:), Torques3(:,3));
-plot(elapsTime(:), ones(size(Torques))*1);
+%plot(elapsTime1(:), Torques1(:,3));
+%plot(elapsTime2(:), Torques2(:,3));
+%plot(elapsTime3(:), Torques3(:,3));
+%plot(elapsTime3(:), Forces3(:,3));
+plot(elapsTime(:), ones(size(Torques))*0.5);
 hold off;
 lgd = legend('\fontsize{15} Referance torque','\fontsize{15} K_p\_T = 0.10', '\fontsize{15} K_p\_T = 0.25', '\fontsize{15} K_p\_T = 0.50', '\fontsize{15} K_p\_T = 0.75','Location','east');
 title(lgd,'\fontsize{15} Gain parameters')

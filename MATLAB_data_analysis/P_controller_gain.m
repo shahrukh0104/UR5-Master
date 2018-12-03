@@ -60,9 +60,9 @@ tool_coordinates = data(:, 44:46);
 
 %% Plot step response
 figure('Name','Step response test');
-plot(elapsTime(:), Forces(:,3));
+plot(elapsTime(:), -Forces(:,3));
 hold on;
-plot(elapsTime(:), Forces(:,3));
+plot(elapsTime(:), -Forces(:,3));
 %plot(elapsTime1(:), Forces1(:,3));
 %plot(elapsTime2(:), Forces2(:,3));
 %plot(elapsTime3(:), Forces3(:,3));

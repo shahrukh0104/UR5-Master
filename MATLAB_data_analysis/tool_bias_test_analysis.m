@@ -5,7 +5,7 @@ clc;
 close all;
 clear all;
 %% Load data from file
-fileID = fopen('../data/log_library/gravity_compensation_testing/w_out_vector/tool_bias_Rx');
+fileID = fopen('../data/log_library/gravity_compensation_testing/w_vector/tool_bias_Rx');
 dim = 58; %time(1), q(6), s(6), etc..
 data_format = repmat('%f ', 1, dim);
 raw_data = textscan(fileID, data_format); %Remember to delete any incomplete log entries in the final row.
@@ -13,7 +13,7 @@ raw_data = textscan(fileID, data_format); %Remember to delete any incomplete log
 data = cell2mat(raw_data); %Convert cell array
 fclose(fileID);
 
-fileID1 = fopen('../data/log_library/gravity_compensation_testing/w_out_vector/tool_bias_Ry');
+fileID1 = fopen('../data/log_library/gravity_compensation_testing/w_vector/tool_bias_Ry');
 %dim = 46; %time(1), q(6), s(6), etc..
 %data_format = repmat('%f ', 1, dim);
 raw_data1 = textscan(fileID1, data_format); %Remember to delete any incomplete log entries in the final row.
@@ -21,7 +21,7 @@ raw_data1 = textscan(fileID1, data_format); %Remember to delete any incomplete l
 data1 = cell2mat(raw_data1); %Convert cell array
 fclose(fileID1);
 
-fileID2 = fopen('../data/log_library/gravity_compensation_testing/w_out_vector/tool_bias_Rz');
+fileID2 = fopen('../data/log_library/gravity_compensation_testing/w_vector/tool_bias_Rz');
 %dim = 46; %time(1), q(6), s(6), etc..
 %data_format = repmat('%f ', 1, dim);
 raw_data2 = textscan(fileID2, data_format); %Remember to delete any incomplete log entries in the final row.
@@ -70,3 +70,5 @@ legend('F_x','F_y','F_z')
 xlabel('Elapsed time [s]')
 ylabel('Rz - Force sensor input [N]')
 grid on;
+
+%export_fig GravityCompensationWVector -eps -transparent
