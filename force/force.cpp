@@ -215,7 +215,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double u_Tx = 0, u_Ty = 0, u_Tz = 0;
 	
 	//=======================================================================
-	double references[6] = {0,0,0,0,0.5,0}; //ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
+	double references[6] = {0,0,0,0,0,0}; //ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
 	double speed[6] = {0,0,0,0,0,0};
 	double vw[6] = {0,0,0,0,0,0};
 
@@ -306,7 +306,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
    		
 		
    		error_Fx = error_Fy = error_Fz = 0; //Unsessesary, but safety first.
-   		
+   		error_Fz = 2;
    		//FORCE ERROR UPDATES
    		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
    		{
@@ -327,7 +327,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 		error_Tx  = error_Tz = 0;
-		error_Ty = 0.5;
+		error_Ty = 0;
 		//TORQUE ERROR UPDATES
 		if(fabs(torques[0]) < 0.5 && fabs(torques[1]) < 0.5 && fabs(torques[2]) < 0.5)
 		{
@@ -342,7 +342,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		else
 		{
 			error_Tx = torques[0];
-			error_Ty = torques[1] + references[4]; 
+			error_Ty = torques[1];
 	   		error_Tz = torques[2];
 		}
 
@@ -424,13 +424,14 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// 	references[j] = 0;
 		// }
 
+		references[2] = -2;
 
 		//FORCE MODES
 		vw[0] = 0;
 		vw[1] = 0; 
-		vw[2] = 0; 
+		vw[2] = u_Fz; 
 		vw[3] = 0;
-		vw[4] = u_Ty;
+		vw[4] = 0;
 		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
