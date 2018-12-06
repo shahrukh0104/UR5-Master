@@ -211,7 +211,7 @@ int main()
 			// MOVE TO STARING POINT
 			std::cout << "======================== POSITION CONTROL ACTIVE ========================" << std::endl;
 			std::cout << "Moving to staring location... ";
-			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start_torque_tuner_testing, 1, 1);
+			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start_force_tuner_testing, 1, 1);
 			std::cout << "Press \"Y\" when box is placed and you are ready";
 			std::cin >> readyready;
 			if (readyready == 'Y'|| readyready == 'y'){
