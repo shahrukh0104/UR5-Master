@@ -245,9 +245,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
-	Kp = 0.008;// Prefered between [0.005-0.006]
-	Ki = 0.001; // Not prefered due to overshoot behaviour.
-	//Kd = 0.0075; // Not prefered due to noise amplification
+	Kp = 0.0075;// Prefered between [0.005-0.006]
+	Ki = 0.000005; // Not prefered due to overshoot behaviour.
+	Kd = 0.0000075; // Not prefered due to noise amplification
 	
 	//Kp_T = 0.4;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
@@ -348,7 +348,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 			error_Ty = torques[1];
 	   		error_Tz = torques[2];
 		}
-
+		// error_Tx = torques[0];
+		// error_Ty = torques[1];
+	 // 	error_Tz = torques[2];
 
 		//SAFETY MECHANISM 
 		// if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
