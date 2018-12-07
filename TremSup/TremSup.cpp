@@ -221,7 +221,7 @@ int main()
 	}
 	
 	// FORCE CONTROL
-	double safety_timeout = 5; //[s]
+	double safety_timeout = 500; //[s]
 	char user_status;
 	
 	while(user_status != 'y' || user_status != 'Y')

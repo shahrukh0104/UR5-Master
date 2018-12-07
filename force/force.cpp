@@ -114,7 +114,7 @@ void vector_trans_base_tool(std::vector<double> q, double vector_in[3], double v
 	gsl_vector *O = gsl_vector_alloc(3);
 	
 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
-	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.0823};
+	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
 
 	tfrotype tfkin;
 	R->data=tfkin.R;
@@ -144,7 +144,7 @@ void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 	
 	int signum;
 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
-	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.0823};
+	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
 	double fqd;
 	double sat = 0;
 	
@@ -232,12 +232,16 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double start_time = ur5->rt_interface_->robot_state_->getTime();
 	std::vector<double> sq = ur5->rt_interface_->robot_state_->getQActual();
 	vector_trans_base_tool(sq, bias_tool_WF, bias_tool_TF);
-	
+	//bias_tool_TF[0] += -3.121;
+	//bias_tool_TF[1] += -0.110176;
+
+
 	//Static F/T mounting bias
 	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0], rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]};
 	double bias_force[3];
 	double bias_torque[3] = {rawFTdata[3], rawFTdata[4], rawFTdata[5]};
 	
+
 	double forces[3];
 	double torques[3];
 	
@@ -245,11 +249,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
-	Kp = 0.0075;// Prefered between [0.005-0.006]
-	Ki = 0.0000001; // Not prefered due to overshoot behaviour.
-	Kd = 0.00075; // Not prefered due to noise amplification
+	Kp = 0.005;// Prefered between [0.005-0.006]
+	//Ki = 0.0000001; // Not prefered due to overshoot behaviour.
+	//Kd = 0.00075; // Not prefered due to noise amplification
 	
-	//Kp_T = 0.4;// Prefered between [0.4-0.5]
+	Kp_T = 0.4;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
 	//Kd_T = 0.005; // Not prefered due to noise amplification.
 	
@@ -262,7 +266,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{
-		references[2] = 2;
+		//references[2] = 2;
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -297,6 +301,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		 forces[1] = rawFTdata[1]-bias_force[1];
 		 forces[2] = rawFTdata[2]-bias_force[2];
 		 
+		//force_tresh[0] = forces[0]*1- gsl_e**		 err = ref + force_tresh
+
 		 torques[0] = rawFTdata[3]-bias_torque[0];
 		 torques[1] = rawFTdata[4]-bias_torque[1];
 		 torques[2] = rawFTdata[5]-bias_torque[2];
@@ -430,12 +436,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// }
 
 		//FORCE MODES
-		vw[0] = 0;
-		vw[1] = 0; 
+		vw[0] = u_Fx;
+		vw[1] = u_Fy; 
 		vw[2] = u_Fz; 
-		vw[3] = 0;
-		vw[4] = 0;
-		vw[5] = 0;
+		vw[3] = u_Tx;
+		vw[4] = u_Ty;
+		vw[5] = u_Tz;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();
@@ -477,7 +483,13 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 		i = i+1;
-		usleep(iteration_sleeptime);		
+		usleep(iteration_sleeptime);	
+		if(i%5){
+			std::cout<< "F_x: " << forces[0]<<std::endl;
+			std::cout<<"F_y: " << forces[1] <<std::endl;	
+			std::cout<<"F_z: " << forces[2] <<std::endl;	
+		}
+
 	}	
 	
 	//stopFT(&forceID);
