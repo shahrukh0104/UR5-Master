@@ -246,8 +246,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	
 	//PID controller gain parameters
 	Kp = 0.0075;// Prefered between [0.005-0.006]
-	Ki = 0.000005; // Not prefered due to overshoot behaviour.
-	Kd = 0.0000075; // Not prefered due to noise amplification
+	Ki = 0.0000001; // Not prefered due to overshoot behaviour.
+	Kd = 0.00075; // Not prefered due to noise amplification
 	
 	//Kp_T = 0.4;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
