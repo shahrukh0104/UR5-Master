@@ -49,7 +49,7 @@ Forces2 = data2(:, 20:22);
 errors_F2 = data2(:, 26:28);
 
 %% Load data from test 4
-fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.0005');
+fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.00005');
 raw_data3 = textscan(fileID3, data_format); %Remember to delete any incomplete log entries in the final row.
 data3 = cell2mat(raw_data3); %Convert cell array
 fclose(fileID3);
