@@ -244,16 +244,18 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	double forces[3];
 	double torques[3];
-	
+	double force_tresh[3];
+	double torque_tresh[3];
+
 	int i = 0; 
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
 	Kp = 0.005;// Prefered between [0.005-0.006]
-	//Ki = 0.0000001; // Not prefered due to overshoot behaviour.
-	//Kd = 0.00075; // Not prefered due to noise amplification
+	Ki = 0.000000001; // Not prefered due to overshoot behaviour.
+	Kd = 0.000000005; // Not prefered due to noise amplification
 	
-	Kp_T = 0.4;// Prefered between [0.4-0.5]
+	//Kp_T = 0.4;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
 	//Kd_T = 0.005; // Not prefered due to noise amplification.
 	
@@ -266,7 +268,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{
-		//references[2] = 2;
+		references[2] = 2;
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -297,67 +299,47 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		}
 		
 		
-		 forces[0] = rawFTdata[0]-bias_force[0];
-		 forces[1] = rawFTdata[1]-bias_force[1];
-		 forces[2] = rawFTdata[2]-bias_force[2];
+		//FORCES
+		forces[0] = rawFTdata[0]-bias_force[0];
+		forces[1] = rawFTdata[1]-bias_force[1];
+		forces[2] = rawFTdata[2]-bias_force[2];
 		 
-		//force_tresh[0] = forces[0]*1- gsl_e**		 err = ref + force_tresh
+		//FORCE TRESHOLDING FOR REMOVING DRIFT AND SMOOTH START AND STOP
+		force_tresh[0] = (1- exp(-pow(forces[0], 2)/pow(0.2, 2)))*forces[0];		 
+		force_tresh[1] = (1- exp(-pow(forces[1], 2)/pow(0.2, 2)))*forces[1];
+		force_tresh[2] = (1- exp(-pow(forces[2], 2)/pow(0.2, 2)))*forces[2];
 
-		 torques[0] = rawFTdata[3]-bias_torque[0];
-		 torques[1] = rawFTdata[4]-bias_torque[1];
-		 torques[2] = rawFTdata[5]-bias_torque[2];
+
+		//FORCE ERROR UPDATES
+		error_Fx = error_Fy = error_Fz = 0;
+
+		error_Fx = references[0] + force_tresh[0];
+		error_Fy = references[1] + force_tresh[1];
+		error_Fz = references[2] + force_tresh[2];
+
+
+		//TORQUES
+		torques[0] = rawFTdata[3]-bias_torque[0];
+		torques[1] = rawFTdata[4]-bias_torque[1];
+		torques[2] = rawFTdata[5]-bias_torque[2];
 		 
+		//TORQUE TRESHOLDING FOR REMOVING DRIFT AND SMOOTH START AND STOP
+		torque_tresh[0] = (0.5- exp(-pow(torques[0], 2)/pow(0.2, 2)))*torques[0];		 
+		torque_tresh[1] = (0.5- exp(-pow(torques[1], 2)/pow(0.2, 2)))*torques[1];
+		torque_tresh[2] = (0.5- exp(-pow(torques[2], 2)/pow(0.2, 2)))*torques[2];
+
+		//TORQUE ERROR UPDATES
+		error_Tx  = error_Ty = error_Tz = 0;
+
+		error_Tx = references[3] + torques[0];
+		error_Ty = references[4] + torques[1];
+   		error_Tz = references[5] + torques[2];
+
+
 
 		theta = atan2(gsl_vector_get(O,1), gsl_vector_get(O,0));
    		
 		
-   		error_Fx = error_Fy = error_Fz = 0; //Unsessesary, but safety first.
-
-   		//FORCE ERROR UPDATES
-   		if(fabs(forces[0]) < 1 && fabs(forces[1]) < 1 && fabs(forces[2]) < 1) // Dead-band filter, cut-off at 1N
-   		{
-			error_Fx = references [0] + error_Fx/1.2; //Gentle step-down
-			error_Fy = references [1] + error_Fy/1.2;
-			error_Fz = references [2] + error_Fz/1.2;
-			
-			integrator_Fx = integrator_Fx/1.2;
-			integrator_Fy = integrator_Fy/1.2;
-			integrator_Fz = integrator_Fz/1.2;
-		}
-		else
-		{	
-			error_Fx = references[0] + forces[0];
-			error_Fy = references[1] + forces[1];
-			error_Fz = references[2] + forces[2];
-		}
-			
-		// error_Fx = references[0] + forces[0];
-		// error_Fy = references[1] + forces[1];
-		// error_Fz = references[2] + forces[2];
-
-
-		error_Tx  = error_Ty = error_Tz = 0;
-		//TORQUE ERROR UPDATES
-		if(fabs(torques[0]) < 0.5 && fabs(torques[1]) < 0.5 && fabs(torques[2]) < 0.5)
-		{
-			error_Tx = error_Tx/1.2; //Gentle step-down
-			error_Ty = error_Ty/1.2;
-	   		error_Tz = error_Tz/1.2;
-	   		
-	   		integrator_Tx = integrator_Tx/1.2;
-			integrator_Ty = integrator_Ty/1.2;
-			integrator_Tz = integrator_Tz/1.2;
-		}
-		else
-		{
-			error_Tx = torques[0];
-			error_Ty = torques[1];
-	   		error_Tz = torques[2];
-		}
-		// error_Tx = torques[0];
-		// error_Ty = torques[1];
-	 // 	error_Tz = torques[2];
-
 		//SAFETY MECHANISM 
 		// if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
 		// {
@@ -386,9 +368,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		//=============== CONTROLLER =====================
 		//Translational forces - 3DOF
-		integrator_Fx = integrator_Fx + error_Fx;//integrator_Fx + error_Fx*iteration_time;//
-		integrator_Fy = integrator_Fy + error_Fy;//integrator_Fy + error_Fy*iteration_time;//
-		integrator_Fz = integrator_Fz + error_Fz;//integrator_Fz + error_Fz*iteration_time;//
+		integrator_Fx += error_Fx;//integrator_Fx + error_Fx*iteration_time;//
+		integrator_Fy += error_Fy;//integrator_Fy + error_Fy*iteration_time;//
+		integrator_Fz += error_Fz;//integrator_Fz + error_Fz*iteration_time;//
 		
 		derivator_Fx = error_Fx - prior_error_Fx;//(error_Fx - prior_error_Fx)/iteration_time;//
 		derivator_Fy = error_Fy - prior_error_Fy;//(error_Fy - prior_error_Fy)/iteration_time;//
@@ -399,9 +381,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		u_Fz = Kp*error_Fz + Ki*integrator_Fz + Kd*derivator_Fz;
 		
 		//Rotational torques - 3DOF
-		integrator_Tx = integrator_Tx + error_Tx;
-		integrator_Ty = integrator_Ty + error_Ty;
-		integrator_Tz = integrator_Tz + error_Tz;
+		integrator_Tx += error_Tx;
+		integrator_Ty += error_Ty;
+		integrator_Tz += error_Tz;
 		
 		derivator_Tx = error_Tx - prior_error_Tx;
 		derivator_Ty = error_Ty - prior_error_Ty;
@@ -436,12 +418,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// }
 
 		//FORCE MODES
-		vw[0] = u_Fx;
-		vw[1] = u_Fy; 
+		vw[0] = 0;
+		vw[1] = 0; 
 		vw[2] = u_Fz; 
-		vw[3] = u_Tx;
-		vw[4] = u_Ty;
-		vw[5] = u_Tz;
+		vw[3] = 0;
+		vw[4] = 0;
+		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();

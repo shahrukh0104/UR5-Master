@@ -17,6 +17,7 @@
 #include <cmath>
 #include <chrono>
 #include <time.h>
+#include <math.h>
 
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
