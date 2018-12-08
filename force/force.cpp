@@ -251,11 +251,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	int iter = run_time/0.008;
 	
 	//PID controller gain parameters
-	Kp = 0.005;// Prefered between [0.005-0.006]
-	Ki = 0.000000001; // Not prefered due to overshoot behaviour.
-	Kd = 0.000000005; // Not prefered due to noise amplification
+	//Kp = 0.0077;// Prefered between [0.005-0.006]
+	//Ki = 0.00015; // Not prefered due to overshoot behaviour.
+	//Kd = 0.08; // Not prefered due to noise amplification
 	
-	//Kp_T = 0.4;// Prefered between [0.4-0.5]
+	Kp_T = 0.1;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
 	//Kd_T = 0.005; // Not prefered due to noise amplification.
 	
@@ -268,7 +268,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{
-		references[2] = 2;
+		references[4] = 1;
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -420,9 +420,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		//FORCE MODES
 		vw[0] = 0;
 		vw[1] = 0; 
-		vw[2] = u_Fz; 
+		vw[2] = 0; 
 		vw[3] = 0;
-		vw[4] = 0;
+		vw[4] = u_Ty;
 		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
@@ -467,9 +467,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		i = i+1;
 		usleep(iteration_sleeptime);	
 		if(i%5){
-			std::cout<< "F_x: " << forces[0]<<std::endl;
-			std::cout<<"F_y: " << forces[1] <<std::endl;	
-			std::cout<<"F_z: " << forces[2] <<std::endl;	
+			std::cout<< "T_x: " << torques[0]<<std::endl;
+			std::cout<<"T_y: " << torques[1] <<std::endl;	
+			std::cout<<"T_z: " << torques[2] <<std::endl;	
 		}
 
 	}	
