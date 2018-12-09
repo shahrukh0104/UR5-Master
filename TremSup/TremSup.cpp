@@ -197,7 +197,7 @@ int main()
 	//q_start -> Starting position with a desired pose and good range of motion in current laboratory setup
 	double q_start[6] = {0.377885, -2.60787, -2.07686, -1.57022, -0.872731, 1.62437};
 	double q_start_force_tuner_testing[6] = {0.214268, -2.46378, -1.66631, -3.72433, -1.59585, 1.92308};
-	double q_start_torque_tuner_testing[6] = {0.206357, -2.47195, -1.66383, -3.71852, -1.59548, 1.8};
+	double q_start_torque_tuner_testing[6] = {0.269024, -2.45595, -1.74306, -3.66909, -1.5577, 1.96192};
 
 	char user_ready;
 	char readyready;

@@ -255,7 +255,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//Ki = 0.00015; // Not prefered due to overshoot behaviour.
 	//Kd = 0.08; // Not prefered due to noise amplification
 	
-	Kp_T = 0.5;// Prefered between [0.4-0.5]
+	Kp_T = 0.9;// Prefered between [0.4-0.5]
 	//Ki_T = 0; // Not prefered due to steady-state error.
 	//Kd_T = 0.005; // Not prefered due to noise amplification.
 	
