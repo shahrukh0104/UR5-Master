@@ -255,9 +255,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//Ki = 0.00015; // Not prefered due to overshoot behaviour.
 	//Kd = 0.08; // Not prefered due to noise amplification
 	
-	Kp_T = 0.9;// Prefered between [0.4-0.5]
-	//Ki_T = 0; // Not prefered due to steady-state error.
-	//Kd_T = 0.005; // Not prefered due to noise amplification.
+	Kp_T = 0.45;// Prefered between [0.4-0.5]
+	//Ki_T = 0.01; // Not prefered due to steady-state error.
+	Kd_T = 10; // Not prefered due to noise amplification.
 	
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
@@ -324,16 +324,16 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		torques[2] = rawFTdata[5]-bias_torque[2];
 		 
 		//TORQUE TRESHOLDING FOR REMOVING DRIFT AND SMOOTH START AND STOP
-		torque_tresh[0] = (0.5- exp(-pow(torques[0], 2)/pow(0.2, 2)))*torques[0];		 
-		torque_tresh[1] = (0.5- exp(-pow(torques[1], 2)/pow(0.2, 2)))*torques[1];
-		torque_tresh[2] = (0.5- exp(-pow(torques[2], 2)/pow(0.2, 2)))*torques[2];
+		torque_tresh[0] = (1- exp(-pow(torques[0], 2)/pow(0.3, 2)))*torques[0];		 
+		torque_tresh[1] = (1- exp(-pow(torques[1], 2)/pow(0.3, 2)))*torques[1];
+		torque_tresh[2] = (1- exp(-pow(torques[2], 2)/pow(0.3, 2)))*torques[2];
 
 		//TORQUE ERROR UPDATES
 		error_Tx  = error_Ty = error_Tz = 0;
 
-		error_Tx = references[3] + torques[0];
-		error_Ty = references[4] + torques[1];
-   		error_Tz = references[5] + torques[2];
+		error_Tx = references[3] + torque_tresh[0];
+		error_Ty = references[4] + torque_tresh[1];
+   		error_Tz = references[5] + torque_tresh[2];
 
 
 
