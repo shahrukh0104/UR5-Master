@@ -256,8 +256,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//Kd = 0.08; // Not prefered due to noise amplification
 	
 	Kp_T = 0.45;// Prefered between [0.4-0.5]
-	//Ki_T = 0.01; // Not prefered due to steady-state error.
-	Kd_T = 10; // Not prefered due to noise amplification.
+	Ki_T = 0.01; // Not prefered due to steady-state error.
+	//Kd_T = 10; // Not prefered due to noise amplification.
 	
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
