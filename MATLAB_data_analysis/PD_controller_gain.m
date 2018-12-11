@@ -29,7 +29,7 @@ biasForce = data(:, 41:43);
 tool_coordinates = data(:, 44:46);
 
 %% Load data from test 2
-fileID1 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.00001');
+fileID1 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.001');
 raw_data1 = textscan(fileID1, data_format); %Remember to delete any incomplete log entries in the final row.
 data1 = cell2mat(raw_data1); %Convert cell array
 fclose(fileID1);
@@ -40,7 +40,7 @@ Forces1 = data1(:, 20:22);
 errors_F1 = data1(:, 26:28);
 
 %% Load data from test 3
-fileID2 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.00075');
+fileID2 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.0025');
 raw_data2 = textscan(fileID2, data_format); %Remember to delete any incomplete log entries in the final row.
 data2 = cell2mat(raw_data2); %Convert cell array
 fclose(fileID2);
@@ -51,7 +51,7 @@ Forces2 = data2(:, 20:22);
 errors_F2 = data2(:, 26:28);
 
 %% Load data from test 4
-fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.075');
+fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PD-controller/Kp=0.008_Kd=0.05');
 raw_data3 = textscan(fileID3, data_format); %Remember to delete any incomplete log entries in the final row.
 data3 = cell2mat(raw_data3); %Convert cell array
 fclose(fileID3);
@@ -71,10 +71,12 @@ plot(elapsTime2(:), -Forces2(:,3));
 plot(elapsTime3(:), -Forces3(:,3));
 
 
-ax1 = legend({'\fontsize{15} Referance force', '\fontsize{15} K_d = 0.00075', '\fontsize{15} K_d = 0.00750', '\fontsize{15} K_d = 0.02500', '\fontsize{15} K_d = 0.07500'}, 'Location','east');
-title(ax1,'\fontsize{15} Gain parameters')
-title('\fontsize{15} PD-controller - Step response for Fz');
-xlabel('\fontsize{15} Time [s]')
-ylabel('\fontsize{15} Force [N]')
+legend({'Reference', 'K_d = 0.0000075', 'K_d = 0.001', 'K_d = 0.0025', 'K_d = 0.05'}, 'Location', 'southeast', 'Fontsize', 14);
+%title(lgd,'Gain parameters','FontSize',15)
+title('PD-controller - Step response for Fz','FontSize',15);
+xlabel('Time [s]', 'FontSize',15)
+ylabel('Force [N]', 'FontSize',15)
 grid on;
 hold off;
+
+%export_fig ForcePDcont -eps -transparent
