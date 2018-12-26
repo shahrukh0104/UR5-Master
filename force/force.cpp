@@ -186,15 +186,51 @@ void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 	}
 }
 
+
+const vector<string> explode(const string& s, const char& c)
+{
+	string buff{""};
+	vector<string> v;
+	
+	for(auto n:s)
+	{
+		if(n != c) buff+=n; else
+		if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+	}
+	if(buff != "") v.push_back(buff);
+	
+	return v;
+}
+
+
+
+
+
+
+
+
+
+
 void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)
 {
 	pthread_t forceID;
-	startFT(&forceID);	
-	
+	startFT(&forceID);
+	cArduino arduino(ArduinoBaundRate::B500000bps);
+	if(!arduino.isOpen()){
+		std::cerr << "Can't open Arduino Uno" << endl;
+	}	
+	std::cout << "Arduino Open At " << arduino.getDeviceName() << endl;
 	
 	std::cout << "Force control initiated - starting data logging ..." << std::endl;
 	std::ofstream forcelog;
+	std::ofstream accelerolog;
 	forcelog.open("../data/logs/forcelog", std::ofstream::out);
+	accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
+
+
+
+
+
 	
 	//Control system for translation forces
 	double integrator_Fx = 0, integrator_Fy = 0, integrator_Fz = 0;
@@ -226,7 +262,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	double theta;
-	//double angle_max = M_PI/2;//unit [rad]
+	double angle_max = M_PI/2;//unit [rad]
 	
 	
 	double start_time = ur5->rt_interface_->robot_state_->getTime();
@@ -247,17 +283,37 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double force_tresh[3];
 	double torque_tresh[3];
 
+	// std::vector<double> force_tresh_lp_x;
+	// std::vector<double> force_tresh_lp_y;
+	// std::vector<double> force_tresh_lp_z;
+
+
 	int i = 0; 
 	int iter = run_time/0.008;
+
+
+	// double RC = 1/(5*2*3.14);
+	// double alpha = 1/(RC + 1);
 	
+	//MASS-SPRING-DAMPER COEFFICIENTS
+	//double m = 0.3;
+	
+	//double k = 0.5; 
+	
+	double ArduinoFrequencyData;
+	double ArduinoAccelerometerData;
+	std::string ArduinoString;
+	std::vector<string> ArduinoSplitString;
+	
+
 	//PID controller gain parameters
-	//Kp = 0.0077;// Prefered between [0.005-0.006]
+	Kp = 0.005;// Prefered between [0.005-0.006]
 	//Ki = 0.00015; // Not prefered due to overshoot behaviour.
 	//Kd = 0.08; // Not prefered due to noise amplification
 	
 	Kp_T = 0.5;// Prefered between [0.4-0.5]
-	Ki_T = 0.00007; // Not prefered due to steady-state error.
-	Kd_T = 0.65; // Not prefered due to noise amplification.
+	//Ki_T = 0.00007; // Not prefered due to steady-state error.
+	//Kd_T = 0.65; // Not prefered due to noise amplification.
 	
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
@@ -267,8 +323,24 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
-	{
-		references[4] = 1;
+	{	
+
+		ArduinoString = arduino.read();
+
+		std::cout << ArduinoString << endl;
+	 	ArduinoSplitString = explode(ArduinoString, ',');
+
+	 	//std::cout << ArduinoSplitString << endl;
+
+		ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
+	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
+
+
+		//std::cout << ArduinoFrequencyData << endl;
+
+
+
+
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -280,7 +352,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		double elaps_time = time_stamp-start_time;
 				  
 		std::vector<double> q = ur5->rt_interface_->robot_state_->getQActual();
-		//std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
+		std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
 		//std::vector<double> qdd_target = ur5->rt_interface_->robot_state_->getQddTarget();
 		//std::vector<double> tcp_speed = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
    		
@@ -309,14 +381,30 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		force_tresh[1] = (1- exp(-pow(forces[1], 2)/pow(0.2, 2)))*forces[1];
 		force_tresh[2] = (1- exp(-pow(forces[2], 2)/pow(0.2, 2)))*forces[2];
 
+		// //LOW-PASS FILTER FORCES
+		
+		// force_tresh_lp_x.push_back(force_tresh[0]);
+		// force_tresh_lp_y.push_back(force_tresh[1]);
+		// force_tresh_lp_z.push_back(force_tresh[2]);
+		
+		// if(i >= 1){
+		// 	force_tresh_lp_x.push_back((alpha*(force_tresh[i])));
+		// 	force_tresh_lp_y.push_back(force_tresh_lp_y[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_y[i-1])));
+		// 	force_tresh_lp_z.push_back(force_tresh_lp_z[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_z[i-1])));
+		
+	 	//  std::cout << "force_tresh[0]: " << force_tresh[0] << std::endl;
+		// 	std::cout << "force_tresh_lp_x: " << force_tresh_lp_x[i] << std::endl;
+		// 	std::cout << "Error F_x: " << error_Fx << std::endl;
+		// 	std::cout << "i: " << i << std::endl;
+		// }
+
 
 		//FORCE ERROR UPDATES
 		error_Fx = error_Fy = error_Fz = 0;
 
-		error_Fx = references[0] + force_tresh[0];
-		error_Fy = references[1] + force_tresh[1];
-		error_Fz = references[2] + force_tresh[2];
-
+		error_Fx = references[0] + force_tresh[0]; //force_tresh_lp_x[i];
+		error_Fy = references[1] + force_tresh[1]; //force_tresh_lp_y[i];
+		error_Fz = references[2] + force_tresh[2]; //force_tresh_lp_y[i];
 
 		//TORQUES
 		torques[0] = rawFTdata[3]-bias_torque[0];
@@ -337,33 +425,52 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 
+   		//DIRTY DERIVATIVE FILTER
+
+   		//qdd = beta*qdd_prior + (1-beta)((qd - qd_prior)/T); 
+
+
+
+   		//DVA BEHAVIOUR
+
+   		// std::vector<double> x_tilde;
+   		// std::vector<double> x_dot_tilde;
+   		// std::vector<double> x_ddot_tilde;
+
+   		// qd = solveInverseJacobian(q, x_dot_tilde, speed);
+
+   		// x_ddot_tilde = ((-k/m)*x_tilde - (c/m)*x_ddot_tilde);
+
+
+
+
 		theta = atan2(gsl_vector_get(O,1), gsl_vector_get(O,0));
    		
 		
 		//SAFETY MECHANISM 
-		// if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
-		// {
-		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
-		// 	ur5->halt();
-		// 	std::cout << "Force levels too large - force control halted!" << std::endl;
-		// 	break;
-		// }
+		if(fabs(error_Fx) > 50 || fabs(error_Fy) > 50 || fabs(error_Fz) > 50)
+		{
+			std::cout << "============================= STOPPING! ============================" << std::endl;
+			ur5->halt();
+			std::cout << "Force levels too large - force control halted!" << std::endl;
+			break;
+		}
 		
-		// if(fabs(error_Tx) > 8 || fabs(error_Ty) > 8 || fabs(error_Tz) > 8)
-		// {
-		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
-		// 	ur5->halt();
-		// 	std::cout << "Torque levels too large - force control halted!" << std::endl;
-		// 	break;
-		// }
+		if(fabs(error_Tx) > 8 || fabs(error_Ty) > 8 || fabs(error_Tz) > 8)
+		{
+			std::cout << "============================= STOPPING! ============================" << std::endl;
+			ur5->halt();
+			std::cout << "Torque levels too large - force control halted!" << std::endl;
+			break;
+		}
 		
-		// if(fabs(q[3]) > fabs(sq[3])+angle_max*2 || fabs(q[4]) > fabs(sq[4])+angle_max*2 || fabs(q[5]) > fabs(sq[5])+angle_max*2)
-		// {
-		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
-		// 	ur5->halt();
-		// 	std::cout << "Joint angle too large  - force control halted!" << std::endl;
-		// 	break;
-		// }
+		if(fabs(q[3]) > fabs(sq[3])+angle_max*2 || fabs(q[4]) > fabs(sq[4])+angle_max*2 || fabs(q[5]) > fabs(sq[5])+angle_max*2)
+		{
+			std::cout << "============================= STOPPING! ============================" << std::endl;
+			ur5->halt();
+			std::cout << "Joint angle too large  - force control halted!" << std::endl;
+			break;
+		}
 		
 		
 		//=============== CONTROLLER =====================
@@ -395,21 +502,21 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		
 		//SAFETY MECHANISM 
-		// if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5 || fabs(u_Fz) > 5)
-		// {
-		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
-		// 	ur5->halt();
-		// 	std::cout << "Force control input too large - stopping force control!" << std::endl;
-		// 	break;
-		// }
+		if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5 || fabs(u_Fz) > 5)
+		{
+			std::cout << "============================= STOPPING! ============================" << std::endl;
+			ur5->halt();
+			std::cout << "Force control input too large - stopping force control!" << std::endl;
+			break;
+		}
 		
-		// if(fabs(u_Tx) > 5 || fabs(u_Ty) > 5 || fabs(u_Tz) > 5)
-		// {
-		// 	std::cout << "============================= STOPPING! ============================" << std::endl;
-		// 	ur5->halt();
-		// 	std::cout << "Torque control input too large - stopping force control!" << std::endl;
-		// 	break;
-		// }
+		if(fabs(u_Tx) > 5 || fabs(u_Ty) > 5 || fabs(u_Tz) > 5)
+		{
+			std::cout << "============================= STOPPING! ============================" << std::endl;
+			ur5->halt();
+			std::cout << "Torque control input too large - stopping force control!" << std::endl;
+			break;
+		}
 		
 		//Clear all referances
 		// for (int j = 0; j<6; j++)
@@ -418,12 +525,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// }
 
 		//FORCE MODES
-		vw[0] = 0;
-		vw[1] = 0; 
-		vw[2] = 0; 
-		vw[3] = 0;
+		vw[0] = u_Fx;
+		vw[1] = u_Fy; 
+		vw[2] = u_Fz; 
+		vw[3] = u_Tx;
 		vw[4] = u_Ty;
-		vw[5] = 0;
+		vw[5] = u_Tz;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();
@@ -462,19 +569,20 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		<< gsl_matrix_get(R,1,1) << " " << gsl_matrix_get(R,1,2) << " " 
 		<< gsl_matrix_get(R,2,0) << " " << gsl_matrix_get(R,2,1) << " " 
 		<< gsl_matrix_get(R,2,2) << " " << "\n\n\n\n";
+		
+		
+		accelerolog << ArduinoAccelerometerData << endl;
 
 
-		i = i+1;
-		usleep(iteration_sleeptime);	
-		if(i%5){
-			std::cout<< "T_x: " << torques[0]<<std::endl;
-			std::cout<<"T_y: " << torques[1] <<std::endl;	
-			std::cout<<"T_z: " << torques[2] <<std::endl;	
-		}
+		i += 1;
+		usleep(iteration_sleeptime);
+
+		
 
 	}	
 	
 	//stopFT(&forceID);
 	
 	forcelog.close();
+	accelerolog.close();
 }
