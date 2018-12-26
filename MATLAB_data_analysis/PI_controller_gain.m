@@ -39,7 +39,7 @@ Forces1 = data1(:, 20:22);
 errors_F1 = data1(:, 26:28);
 
 %% Load data from test 3
-fileID2 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.000001');
+fileID2 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.000075');
 raw_data2 = textscan(fileID2, data_format); %Remember to delete any incomplete log entries in the final row.
 data2 = cell2mat(raw_data2); %Convert cell array
 fclose(fileID2);
@@ -49,7 +49,7 @@ Forces2 = data2(:, 20:22);
 errors_F2 = data2(:, 26:28);
 
 %% Load data from test 4
-fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.00005');
+fileID3 = fopen('../data/log_library/controller_gain_estimation_force/PI-controller/Ki=0.0005');
 raw_data3 = textscan(fileID3, data_format); %Remember to delete any incomplete log entries in the final row.
 data3 = cell2mat(raw_data3); %Convert cell array
 fclose(fileID3);
@@ -67,10 +67,12 @@ plot(elapsTime1(:), -Forces1(:,3));
 plot(elapsTime2(:), -Forces2(:,3));
 plot(elapsTime3(:), -Forces3(:,3));
 
-hold off;
-lgd = legend('\fontsize{15} Referance force','\fontsize{15} K_i = 0.000100', '\fontsize{15} K_i = 0.000150', '\fontsize{15} K_i = 0.000200', '\fontsize{15} K_i = 0.000250','Location','east');
-title(lgd,'\fontsize{15} Gain parameters')
-title('\fontsize{15} PI-controller - Step response for Fz');
-xlabel('\fontsize{15} Time [s]')
-ylabel('\fontsize{15} Force [N]')
+legend({'Reference', 'K_i = 0.0000001', 'K_i = 0.0000005', 'K_i = 0.000075', 'K_i = 0.0005'}, 'Location', 'southeast', 'Fontsize', 14);
+%title(lgd,'Gain parameters','FontSize',15)
+title('PI-controller - Step response for Fz','FontSize',15);
+xlabel('Time [s]', 'FontSize',15)
+ylabel('Force [N]', 'FontSize',15)
 grid on;
+hold off;
+
+%export_fig ForcePIcont -eps -transparent

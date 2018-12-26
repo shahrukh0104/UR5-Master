@@ -78,10 +78,13 @@ plot(elapsTime2(:), -Forces2(:,3));
 plot(elapsTime3(:), -Forces3(:,3));
 plot(elapsTime4(:), -Forces4(:,3));
 
-legend('Reference', 'K_p = 0.0050', 'K_p = 0.0075', 'K_p = 0.0100','K_p = 0.0150', 'K_p = 0.0200');
+legend({'Reference', 'K_p = 0.0050', 'K_p = 0.0075', 'K_p = 0.0100','K_p = 0.0150', 'K_p = 0.0200'}, 'Location', 'southeast', 'Fontsize', 14);
 %title(lgd,'Gain parameters','FontSize',15)
 title('P-controller - Step response for Fz','FontSize',15);
 xlabel('Time [s]', 'FontSize',15)
 ylabel('Force [N]', 'FontSize',15)
 grid on;
 hold off;
+
+%export_fig ForcePcont -eps -transparent
+
