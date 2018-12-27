@@ -87,14 +87,14 @@ void loop() {
     //{stop_recording=true;}
     //PlotSignal(s2);
     //Plot2Signal(s1,s2);
-//    if (MAXK+0.01 > k)
-//    {
-//      //PlotSignal(s1);
-//      //PlotFrequency();
-//      //PrintAll(s1, s2);
-//      //Serial.println(k);
-//        
-//    }
+    if (MAXK+0.01 > k)
+    {
+      //PlotSignal(s1);
+      //PlotFrequency();
+      //PrintAll(s1, s2);
+      //Serial.println(k);
+        
+    }
     
   }
   unsigned long end_t = micros();

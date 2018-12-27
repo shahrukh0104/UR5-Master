@@ -212,27 +212,33 @@ const vector<string> explode(const string& s, const char& c)
 
 
 void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)
-{
+{	
+	//START F/T SENSOR
 	pthread_t forceID;
 	startFT(&forceID);
-	cArduino arduino(ArduinoBaundRate::B500000bps);
-	if(!arduino.isOpen()){
-		std::cerr << "Can't open Arduino Uno" << endl;
-	}	
-	std::cout << "Arduino Open At " << arduino.getDeviceName() << endl;
-	
 	std::cout << "Force control initiated - starting data logging ..." << std::endl;
+
+	//START ARDUINO READ
+	// cArduino arduino(ArduinoBaundRate::B500000bps);
+	// if(!arduino.isOpen()){
+	// 	std::cerr << "Can't open Arduino Uno" << endl;
+	// }	
+	// std::cout << "Arduino Open At " << arduino.getDeviceName() << endl;
+	
+	//OPEN LOGGING FILES
 	std::ofstream forcelog;
 	std::ofstream accelerolog;
 	forcelog.open("../data/logs/forcelog", std::ofstream::out);
-	accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
+	//accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
 
-
-
-
-
+	//DEFINE ITERATION AND TIME VARIABLES
+	int i = 0; 
+	double iteration_time = 0.008;
+	int iter = run_time/iteration_time;
+	double time_stamp;
+	double elaps_time;
 	
-	//Control system for translation forces
+	//CONTROL SYSTEM FOR TRANSLATION FORCES
 	double integrator_Fx = 0, integrator_Fy = 0, integrator_Fz = 0;
 	double derivator_Fx = 0, derivator_Fy = 0, derivator_Fz = 0;
 	double Kp = 0, Ki = 0, Kd = 0;
@@ -241,7 +247,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double prior_error_Fx = 0, prior_error_Fy = 0, prior_error_Fz = 0;
 	double u_Fx = 0, u_Fy = 0, u_Fz = 0;
 	
-	//Control system for rotational torques
+	//CONTROL SYSTEM FOR ROTATIONAL TORQUES
 	double integrator_Tx = 0, integrator_Ty = 0, integrator_Tz = 0;
 	double derivator_Tx = 0, derivator_Ty = 0, derivator_Tz = 0;
 	double Kp_T = 0, Ki_T = 0, Kd_T = 0;
@@ -251,16 +257,34 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double u_Tx = 0, u_Ty = 0, u_Tz = 0;
 	
 	//=======================================================================
-	double references[6] = {0,0,0,0,0,0}; //ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
+	double references[6] = {0,0,0,0,0,0}; 					//ref_Fx, ref_Fy, ref_Fz, ref_Tx, ref_Ty, ref_Tz
 	double speed[6] = {0,0,0,0,0,0};
 	double vw[6] = {0,0,0,0,0,0};
 
-	//End-effector tool bias: a constant mounting bias and a dynamic gravity bias.
-	double bias_tool_WF[3] = {0, 0, -1.472};//-1.472[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
-	double bias_tool_TF[3]; //Gravitational force of end-effector tool in tool frame ('_TF').
+	//END-EFFECTOR TOOL BIAS
+	double bias_tool_WF[3] = {0, 0, -1.472};				//-1.472[N] is the calculated gravitational force on the end-effector tool in world frame ('_WF').
+	double bias_tool_TF[3]; 								//Gravitational force of end-effector tool in tool frame ('_TF').
+
+	//DEFINE JOINT POSITION, VELOCITY AND ACCELERATION
+	std::vector<double> q;
+	std::vector<double> qd;
+	std::vector<double> qdd= {0, 0, 0, 0, 0, 0};
+
+	//DEFINE PRIOR JOINT POSITION, VELOCITY AND ACCELERATION
+	std::vector<double> prior_qd = ur5->rt_interface_->robot_state_->getQdActual();
+	std::vector<double> prior_qdd = {0, 0, 0, 0, 0, 0};
+
+	//DEFINE SUBTRACTION VECTOR
+	std::vector<double> qd_sub = {0, 0, 0, 0, 0, 0};
 
 
-	
+	//DEFINE DIRTY DERIVATIVE VARIABLES
+	double lambda = 0.2; 								//Dirty derivative differentiates signals with frequency less than 1/lambda rad/sec. 0.0013 is approx 12Hz. 					
+	double beta = (2*lambda - iteration_time)/(2*lambda + iteration_time);
+	std::vector<double> beta_1 {0, 0, 0, 0, 0, 0};
+	std::vector<double> beta_2 {0, 0, 0, 0, 0, 0};
+
+
 	double theta;
 	double angle_max = M_PI/2;//unit [rad]
 	
@@ -272,38 +296,39 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//bias_tool_TF[1] += -0.110176;
 
 
-	//Static F/T mounting bias
+	//STATIC F/T MOUNTING BIAS
 	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0], rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]};
 	double bias_force[3];
 	double bias_torque[3] = {rawFTdata[3], rawFTdata[4], rawFTdata[5]};
 	
-
+	//FORCE/TORQUE VECTOR ALLOCATION
 	double forces[3];
 	double torques[3];
 	double force_tresh[3];
 	double torque_tresh[3];
 
+	//FORCE/TORQUE VECTOR FOR LOW-PASS FILTERING
 	// std::vector<double> force_tresh_lp_x;
 	// std::vector<double> force_tresh_lp_y;
 	// std::vector<double> force_tresh_lp_z;
 
 
-	int i = 0; 
-	int iter = run_time/0.008;
-
+  	//ARDUINO DATA VARIABLE/VECTOR ALLOCATION
+	// std::vector<string> ArduinoSplitString;
+	// std::string ArduinoString;
+	// double ArduinoFrequencyData;
+	// double ArduinoAccelerometerData;
+	
 
 	// double RC = 1/(5*2*3.14);
 	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	//double m = 0.3;
-	
-	//double k = 0.5; 
-	
-	double ArduinoFrequencyData;
-	double ArduinoAccelerometerData;
-	std::string ArduinoString;
-	std::vector<string> ArduinoSplitString;
+	double desired_frequency = 5;
+	double m = 0.3;
+	double k = pow(desired_frequency, 2)*m; 
+	double crictical_damping = 2*sqrt(k*m);
+	double c = 0.4*crictical_damping; 
 	
 
 	//PID controller gain parameters
@@ -324,20 +349,13 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{	
+		//READ SERIAL DATA FROM ARDUINO
+		// ArduinoString = arduino.read();
+	 // 	ArduinoSplitString = explode(ArduinoString, ',');
 
-		ArduinoString = arduino.read();
-
-		std::cout << ArduinoString << endl;
-	 	ArduinoSplitString = explode(ArduinoString, ',');
-
-	 	//std::cout << ArduinoSplitString << endl;
-
-		ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
-	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
-
-
-		//std::cout << ArduinoFrequencyData << endl;
-
+	 // 	//SPLIT AND CONVERT DATA TO DOUBLE TYPE 
+		// ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
+	 // 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
 
 
 
@@ -348,11 +366,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 			rt_msg_cond_->wait(locker);
 		}
 		
-		double time_stamp = ur5->rt_interface_->robot_state_->getTime();
-		double elaps_time = time_stamp-start_time;
+		time_stamp = ur5->rt_interface_->robot_state_->getTime();
+		elaps_time = time_stamp-start_time;
 				  
-		std::vector<double> q = ur5->rt_interface_->robot_state_->getQActual();
-		std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
+		q = ur5->rt_interface_->robot_state_->getQActual();
+		qd = ur5->rt_interface_->robot_state_->getQdActual();
 		//std::vector<double> qdd_target = ur5->rt_interface_->robot_state_->getQddTarget();
 		//std::vector<double> tcp_speed = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
    		
@@ -387,7 +405,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// force_tresh_lp_y.push_back(force_tresh[1]);
 		// force_tresh_lp_z.push_back(force_tresh[2]);
 		
-		// if(i >= 1){
+		// if(i > 0){
 		// 	force_tresh_lp_x.push_back((alpha*(force_tresh[i])));
 		// 	force_tresh_lp_y.push_back(force_tresh_lp_y[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_y[i-1])));
 		// 	force_tresh_lp_z.push_back(force_tresh_lp_z[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_z[i-1])));
@@ -425,24 +443,13 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 
-   		//DIRTY DERIVATIVE FILTER
-
-   		//qdd = beta*qdd_prior + (1-beta)((qd - qd_prior)/T); 
-
-
-
-   		//DVA BEHAVIOUR
-
-   		// std::vector<double> x_tilde;
-   		// std::vector<double> x_dot_tilde;
-   		// std::vector<double> x_ddot_tilde;
-
-   		// qd = solveInverseJacobian(q, x_dot_tilde, speed);
-
-   		// x_ddot_tilde = ((-k/m)*x_tilde - (c/m)*x_ddot_tilde);
-
-
-
+   		//DIRTY DERIVATIVE FILTER OF qdd 
+   		for (i=0; i < 6; i++){
+   			qd_sub[i] = qd[i] - prior_qd[i];
+   			beta_1[i] = beta*prior_qdd[i];
+   			beta_2[i] = ((1-beta)*(qd_sub[i]))/iteration_time;
+   			qdd[i] = beta_1[i] + beta_2[i];
+   		}
 
 		theta = atan2(gsl_vector_get(O,1), gsl_vector_get(O,0));
    		
@@ -485,8 +492,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		u_Fx = Kp*error_Fx + Ki*integrator_Fx + Kd*derivator_Fx;
 		u_Fy = Kp*error_Fy + Ki*integrator_Fy + Kd*derivator_Fy;
-		u_Fz = Kp*error_Fz + Ki*integrator_Fz + Kd*derivator_Fz;
-		
+		//u_Fz = Kp*error_Fz + Ki*integrator_Fz + Kd*derivator_Fz;
+		u_Fz = m*qdd[5] + c*qd[5] + k*q[5] - Kp*error_Fz;
+		std::cout << u_Fz << endl;
 		//Rotational torques - 3DOF
 		integrator_Tx += error_Tx;
 		integrator_Ty += error_Ty;
@@ -502,7 +510,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		
 		//SAFETY MECHANISM 
-		if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5 || fabs(u_Fz) > 5)
+		if(fabs(u_Fx) > 5 || fabs(u_Fy) > 5|| fabs(u_Fz) > 5)
 		{
 			std::cout << "============================= STOPPING! ============================" << std::endl;
 			ur5->halt();
@@ -524,7 +532,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// 	references[j] = 0;
 		// }
 
-		//FORCE MODES
+		//SOLVE AND SEND TO MANIPULATOR
 		vw[0] = u_Fx;
 		vw[1] = u_Fy; 
 		vw[2] = u_Fz; 
@@ -536,6 +544,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		ur5->rt_interface_->robot_state_->setDataPublished();
 		ur5->setSpeed(speed[0], speed[1], speed[2], speed[3], speed[4], speed[5], 100);
 		
+		//SET PRIOR VARIABLES
 		prior_error_Fx = error_Fx; 
 		prior_error_Fy = error_Fy;
 		prior_error_Fz = error_Fz;
@@ -544,7 +553,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		prior_error_Ty = error_Ty;
 		prior_error_Tz = error_Tz;
 		
-		
+		prior_qd = qd; 
+		prior_qdd = qdd;
+
+
+
+
 		//DATA LOGGING
 		//Currently 55 variables
 		forcelog << elaps_time << " " << speed[0] << " " << speed[1] << " " 
@@ -571,7 +585,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		<< gsl_matrix_get(R,2,2) << " " << "\n\n\n\n";
 		
 		
-		accelerolog << ArduinoAccelerometerData << endl;
+		//accelerolog << ArduinoAccelerometerData << endl;
 
 
 		i += 1;
@@ -584,5 +598,5 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//stopFT(&forceID);
 	
 	forcelog.close();
-	accelerolog.close();
+	//accelerolog.close();
 }
