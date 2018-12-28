@@ -206,12 +206,7 @@ const vector<string> explode(const string& s, const char& c)
 
 
 
-
-
-
-
-
-void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)
+void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)//, double des_x, double des_y, double des_z)
 {	
 	//START F/T SENSOR
 	pthread_t forceID;
@@ -266,17 +261,19 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double bias_tool_TF[3]; 								//Gravitational force of end-effector tool in tool frame ('_TF').
 
 	//DEFINE JOINT POSITION, VELOCITY AND ACCELERATION
-	std::vector<double> q;
-	std::vector<double> qd;
-	std::vector<double> qdd= {0, 0, 0, 0, 0, 0};
+	std::vector<double> q = ur5->rt_interface_->robot_state_->getQActual();
+	std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
+	std::vector<double> qdd = {0, 0, 0, 0, 0, 0};
 
 	//DEFINE PRIOR JOINT POSITION, VELOCITY AND ACCELERATION
 	std::vector<double> prior_qd = ur5->rt_interface_->robot_state_->getQdActual();
 	std::vector<double> prior_qdd = {0, 0, 0, 0, 0, 0};
 
 	//DEFINE SUBTRACTION VECTOR
-	std::vector<double> qd_sub = {0, 0, 0, 0, 0, 0};
+	//std::vector<double> qd_subt = {0, 0, 0, 0, 0, 0};
 
+	// TCP TWIST (THE CARTESIAN VELOCITY OF THE TOOL) #M
+	std::vector<double> tcp_twist = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
 
 	//DEFINE DIRTY DERIVATIVE VARIABLES
 	double lambda = 0.2; 								//Dirty derivative differentiates signals with frequency less than 1/lambda rad/sec. 0.0013 is approx 12Hz. 					
@@ -306,6 +303,35 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double torques[3];
 	double force_tresh[3];
 	double torque_tresh[3];
+
+
+	//ADMITTANCE CONTROLLER VARIABLES
+	double error_x_eq;
+	double error_y_eq;
+	double error_z_eq;
+
+	double x_acc;
+	double y_acc;
+	double z_acc;
+
+	gsl_matrix *R_start = gsl_matrix_calloc(3,3);
+	gsl_vector *O_start = gsl_vector_alloc(3);
+	
+	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
+	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
+	std::vector<double> q_start = {0.269024, -2.45595, -1.74306, -3.66909, -1.5577, 1.96192};
+
+	tfrotype fwdkinStart;
+	R_start->data=fwdkinStart.R_start;
+	O_start->data=fwdkinStart.O_start;
+
+	ufwdkin(&fwdkinStart,q_start.data(),apar,dpar);
+
+
+	double DESIREDXPOS = fwdkinStart.O_start[0];
+	double DESIREDYPOS = fwdkinStart.O_start[1];
+	double DESIREDZPOS = fwdkinStart.O_start[2];
+
 
 	//FORCE/TORQUE VECTOR FOR LOW-PASS FILTERING
 	// std::vector<double> force_tresh_lp_x;
@@ -342,9 +368,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
-	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
-	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.0823};
-	
+
 
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
@@ -374,6 +398,10 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		//std::vector<double> qdd_target = ur5->rt_interface_->robot_state_->getQddTarget();
 		//std::vector<double> tcp_speed = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
    		
+   		tcp_twist = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
+
+
+
    		tfrotype tfkin;
 		R->data=tfkin.R;
 		O->data=tfkin.O;
@@ -393,12 +421,15 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		forces[0] = rawFTdata[0]-bias_force[0];
 		forces[1] = rawFTdata[1]-bias_force[1];
 		forces[2] = rawFTdata[2]-bias_force[2];
-		 
+		
+
+
 		//FORCE TRESHOLDING FOR REMOVING DRIFT AND SMOOTH START AND STOP
 		force_tresh[0] = (1- exp(-pow(forces[0], 2)/pow(0.2, 2)))*forces[0];		 
 		force_tresh[1] = (1- exp(-pow(forces[1], 2)/pow(0.2, 2)))*forces[1];
 		force_tresh[2] = (1- exp(-pow(forces[2], 2)/pow(0.2, 2)))*forces[2];
 
+		
 		// //LOW-PASS FILTER FORCES
 		
 		// force_tresh_lp_x.push_back(force_tresh[0]);
@@ -444,12 +475,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
    		//DIRTY DERIVATIVE FILTER OF qdd 
-   		for (i=0; i < 6; i++){
-   			qd_sub[i] = qd[i] - prior_qd[i];
-   			beta_1[i] = beta*prior_qdd[i];
-   			beta_2[i] = ((1-beta)*(qd_sub[i]))/iteration_time;
-   			qdd[i] = beta_1[i] + beta_2[i];
-   		}
+   		// for (i=0; i < 6; i++){
+   		// 	qd_sub[i] = qd[i] - prior_qd[i];
+   		// 	beta_1[i] = beta*prior_qdd[i];
+   		// 	beta_2[i] = ((1-beta)*(qd_sub[i]))/iteration_time;
+   		// 	qdd[i] = beta_1[i] + beta_2[i];
+   		// }
 
 		theta = atan2(gsl_vector_get(O,1), gsl_vector_get(O,0));
    		
@@ -492,9 +523,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		u_Fx = Kp*error_Fx + Ki*integrator_Fx + Kd*derivator_Fx;
 		u_Fy = Kp*error_Fy + Ki*integrator_Fy + Kd*derivator_Fy;
-		//u_Fz = Kp*error_Fz + Ki*integrator_Fz + Kd*derivator_Fz;
-		u_Fz = m*qdd[5] + c*qd[5] + k*q[5] - Kp*error_Fz;
-		std::cout << u_Fz << endl;
+		u_Fz = Kp*error_Fz + Ki*integrator_Fz + Kd*derivator_Fz;
+
 		//Rotational torques - 3DOF
 		integrator_Tx += error_Tx;
 		integrator_Ty += error_Ty;
@@ -531,16 +561,27 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// {
 		// 	references[j] = 0;
 		// }
+		
+		//ADMITTANCE CONTROLLER ERROR 
+		error_x_eq = tfkin.O[0] - DESIREDXPOS; 
+		error_y_eq = tfkin.O[1] - DESIREDYPOS; 
+		error_z_eq = tfkin.O[2] - DESIREDZPOS; 
+
+		//ADMITTANCE CONTROLLER DYNAMICS
+		x_acc = (1.0/m)*(-c*tcp_twist[0] + k*error_x_eq + force_tresh[0]); 
+		y_acc = (1.0/m)*(-c*tcp_twist[1] + k*error_y_eq + force_tresh[1]); 
+		z_acc = (1.0/m)*(-c*tcp_twist[2] + k*error_z_eq + force_tresh[2]); 
 
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = u_Fx;
-		vw[1] = u_Fy; 
-		vw[2] = u_Fz; 
-		vw[3] = u_Tx;
-		vw[4] = u_Ty;
-		vw[5] = u_Tz;
+		vw[0] = vw[0] + x_acc*iteration_time; 
+		vw[1] = vw[1] + y_acc*iteration_time;  
+		vw[2] = vw[2] + z_acc*iteration_time;
+		vw[3] = 0;
+		vw[4] = 0;
+		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
+		std::cout << vw[0] << endl;
 		ur5->rt_interface_->robot_state_->setDataPublished();
 		ur5->setSpeed(speed[0], speed[1], speed[2], speed[3], speed[4], speed[5], 100);
 		

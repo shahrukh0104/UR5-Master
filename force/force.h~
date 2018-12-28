@@ -17,6 +17,7 @@
 #include <cmath>
 #include <chrono>
 #include <time.h>
+#include <math.h>
 
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
@@ -26,6 +27,7 @@
 
 #include "../ur_modern_driver-master/include/ur_driver.h"
 #include "../kinematics/ur_kin.h"
+#include "../cArduino-master/cArduino.h"
 
 #define PORT 49152 
 #define COMMAND 2 
@@ -60,4 +62,4 @@ void adjustForce(double sq6, double cq6, double outF[3]);
 void rotate(gsl_vector *res,gsl_matrix *R, gsl_vector *inp,gsl_vector *t1,gsl_vector *t2);
 void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6]);
 
-
+const vector<string> explode(const string& s, const char& c);

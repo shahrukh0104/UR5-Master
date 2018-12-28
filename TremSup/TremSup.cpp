@@ -234,7 +234,7 @@ int main()
 
 	std::cout << "Initializing force control... \n" << std::endl;
 	pthread_t forceID;
-	forceControl(&ur5, &rt_msg_cond_, safety_timeout);
+	forceControl(&ur5, &rt_msg_cond_, safety_timeout);//, q_start_torque_tuner_testing[0], q_start_torque_tuner_testing[1], q_start_torque_tuner_testing[2]);
 	
 	//usleep(1000);
 	//std::cout << "Shutting down force control. \n";
