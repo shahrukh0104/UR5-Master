@@ -362,8 +362,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 1;
-	double m = 0.3;
+	double desired_frequency = 0.1;
+	double m = 10;
 	double k = pow(2*3.14*desired_frequency, 2)*m; 
 	double crictical_damping = 2*sqrt(k*m);
 	double c = 0.2*crictical_damping; 
@@ -577,7 +577,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		//ADMITTANCE CONTROLLER DYNAMICS
 		x_acc = (1.0/m)*(-c*tcp_twist[0] - k*error_x_eq + force_tresh[0]); 
 		y_acc = (1.0/m)*(-c*tcp_twist[1] - k*error_y_eq + force_tresh[1]); 
-		z_acc = (1.0/m)*(-c*vw[2] - k*error_z_eq + force_tresh[2]); 
+		z_acc = (1.0/m)*(-c*vw[2] - k*error_z_eq + force_tresh[2] + u_Fz); 
 
 		std::cout << "vw: " << vw[2] << endl;
 		std::cout << "tfkin: " << tfkin.O[2] << endl;
