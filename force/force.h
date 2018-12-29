@@ -52,7 +52,7 @@ typedef struct
   double R[9];
   double O[3];
   double R_start[9];
-  double O_start[9];
+  double O_start[3];
 } tfrotype;
 
 void *getFTData(void *arg);

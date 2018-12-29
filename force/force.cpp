@@ -310,6 +310,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double error_y_eq;
 	double error_z_eq;
 
+	std::vector<double> tcp_pos = ur5->rt_interface_->robot_state_->getToolVectorActual();
+
 	double x_acc;
 	double y_acc;
 	double z_acc;
@@ -317,20 +319,30 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	gsl_matrix *R_start = gsl_matrix_calloc(3,3);
 	gsl_vector *O_start = gsl_vector_alloc(3);
 	
+	gsl_matrix *R = gsl_matrix_calloc(3,3);
+	gsl_vector *O = gsl_vector_alloc(3);
+
+
 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
 	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
-	std::vector<double> q_start = {0.269024, -2.45595, -1.74306, -3.66909, -1.5577, 1.96192};
+	std::vector<double> q_start = ur5->rt_interface_->robot_state_->getQActual();
+
+
+	tfrotype tfkin;
+	R->data=tfkin.R;
+	O->data=tfkin.O;
 
 	tfrotype fwdkinStart;
 	R_start->data=fwdkinStart.R_start;
 	O_start->data=fwdkinStart.O_start;
 
 	ufwdkin(&fwdkinStart,q_start.data(),apar,dpar);
+	ufwdkin(&tfkin,q.data(),apar,dpar);
 
 
 	double DESIREDXPOS = fwdkinStart.O_start[0];
 	double DESIREDYPOS = fwdkinStart.O_start[1];
-	double DESIREDZPOS = fwdkinStart.O_start[2];
+	double DESIREDZPOS = tfkin.O[2];
 
 
 	//FORCE/TORQUE VECTOR FOR LOW-PASS FILTERING
@@ -350,11 +362,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 5;
+	double desired_frequency = 1;
 	double m = 0.3;
-	double k = pow(desired_frequency, 2)*m; 
+	double k = pow(2*3.14*desired_frequency, 2)*m; 
 	double crictical_damping = 2*sqrt(k*m);
-	double c = 0.4*crictical_damping; 
+	double c = 0.2*crictical_damping; 
 	
 
 	//PID controller gain parameters
@@ -365,10 +377,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	Kp_T = 0.5;// Prefered between [0.4-0.5]
 	//Ki_T = 0.00007; // Not prefered due to steady-state error.
 	//Kd_T = 0.65; // Not prefered due to noise amplification.
-	
-	gsl_matrix *R = gsl_matrix_calloc(3,3);
-	gsl_vector *O = gsl_vector_alloc(3);
-
 
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
@@ -401,11 +409,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
    		tcp_twist = ur5->rt_interface_->robot_state_->getTcpSpeedActual();
 
 
-
-   		tfrotype tfkin;
-		R->data=tfkin.R;
-		O->data=tfkin.O;
 		ufwdkin(&tfkin,q.data(),apar,dpar);
+
+
 		
 		//Update equiptment gravity component.
 		bias_tool_TF[0] = bias_tool_TF[1] = bias_tool_TF[2] = bias_force[0] = bias_force[1] = bias_force[2] = 0;
@@ -566,22 +572,26 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		error_x_eq = tfkin.O[0] - DESIREDXPOS; 
 		error_y_eq = tfkin.O[1] - DESIREDYPOS; 
 		error_z_eq = tfkin.O[2] - DESIREDZPOS; 
+		
 
 		//ADMITTANCE CONTROLLER DYNAMICS
-		x_acc = (1.0/m)*(-c*tcp_twist[0] + k*error_x_eq + force_tresh[0]); 
-		y_acc = (1.0/m)*(-c*tcp_twist[1] + k*error_y_eq + force_tresh[1]); 
-		z_acc = (1.0/m)*(-c*tcp_twist[2] + k*error_z_eq + force_tresh[2]); 
+		x_acc = (1.0/m)*(-c*tcp_twist[0] - k*error_x_eq + force_tresh[0]); 
+		y_acc = (1.0/m)*(-c*tcp_twist[1] - k*error_y_eq + force_tresh[1]); 
+		z_acc = (1.0/m)*(-c*vw[2] - k*error_z_eq + force_tresh[2]); 
 
+		std::cout << "vw: " << vw[2] << endl;
+		std::cout << "tfkin: " << tfkin.O[2] << endl;
+		std::cout << "DESIREDZPOS: " << DESIREDZPOS << endl;
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = vw[0] + x_acc*iteration_time; 
-		vw[1] = vw[1] + y_acc*iteration_time;  
+		vw[0] = 0; //vw[0] + x_acc*iteration_time; 
+		vw[1] = 0; //vw[1] + y_acc*iteration_time;  
 		vw[2] = vw[2] + z_acc*iteration_time;
 		vw[3] = 0;
 		vw[4] = 0;
 		vw[5] = 0;
 		solveInverseJacobian(q, vw, speed);
 		
-		std::cout << vw[0] << endl;
+		
 		ur5->rt_interface_->robot_state_->setDataPublished();
 		ur5->setSpeed(speed[0], speed[1], speed[2], speed[3], speed[4], speed[5], 100);
 		
