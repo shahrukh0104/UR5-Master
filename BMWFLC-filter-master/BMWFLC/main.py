@@ -90,29 +90,29 @@ def plotPSD_DVA(x1, x2, x3, Fs=100, linear=True, save_to_file=False, rec_nr=0, s
     if save_to_file and rec_nr != 0:
         if linear:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/rec{rec_nr}Lin.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/rec{rec_nr}Lin.pdf',
                 format='pdf')
         else:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/rec{rec_nr}Log.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/rec{rec_nr}Log.pdf',
                 format='pdf')
     elif save_to_file and sim_nr != 0:
         if linear:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/sim{sim_nr}Lin.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/sim{sim_nr}Lin.pdf',
                 format='pdf')
         else:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/sim{sim_nr}Log.pdf',
+                f'/Users/fig/PSDplots/sim{sim_nr}Log.pdf',
                 format='pdf')
     elif save_to_file and DVA_nr != 0:
         if linear:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/DVA{DVA_nr}Lin.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/DVA{DVA_nr}Lin.pdf',
                 format='pdf')
         else:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/DVA{DVA_nr}Log.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/DVA{DVA_nr}Log.pdf',
                 format='pdf')
     if show:
         plt.show()
@@ -169,19 +169,19 @@ def plotPSD(x, Fs=100, linear = True, save_to_file = False, rec_nr = 0, sim_nr=0
     plt.tight_layout(pad=0.1)
     if save_to_file and rec_nr != 0:
         if linear:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/rec{rec_nr}Lin.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/rec{rec_nr}Lin.pdf', format='pdf')
         else:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/rec{rec_nr}Log.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/rec{rec_nr}Log.pdf', format='pdf')
     elif save_to_file and sim_nr != 0:
         if linear:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/sim{sim_nr}Lin.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/sim{sim_nr}Lin.pdf', format='pdf')
         else:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/sim{sim_nr}Log.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/sim{sim_nr}Log.pdf', format='pdf')
     elif save_to_file and DVA_nr != 0:
         if linear:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/DVA{DVA_nr}Lin.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/DVA{DVA_nr}Lin.pdf', format='pdf')
         else:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/PSDplots/DVA{DVA_nr}Log.pdf', format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/PSDplots/DVA{DVA_nr}Log.pdf', format='pdf')
     if show:
         plt.show()
     plt.clf()
@@ -275,10 +275,10 @@ def plot_heatmap(data, save_to_file = False, rec_nr = 0, sim_nr = 0, show=False)
     plt.tight_layout(pad=0.3)
 
     if save_to_file and rec_nr != 0:
-        plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Heatmaps/heatmap{rec_nr}.pdf',format='pdf')
+        plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Heatmaps/heatmap{rec_nr}.pdf',format='pdf')
     elif save_to_file and sim_nr != 0:
         plt.savefig(
-            f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Heatmaps/heatmap_sim{sim_nr}.pdf',
+            f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Heatmaps/heatmap_sim{sim_nr}.pdf',
             format='pdf')
     if show:
         plt.show()
@@ -529,15 +529,15 @@ def run_BMWFLC(f_min = 4, f_max = 6, dT = 0.01, dF = 0.1, plot_update_rate = 100
         plt.yticks(size=15)
         plt.plot(signalTime, tremor_data)
         #plt.plot(signalTime, estimated_signal)
-        np.savetxt(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/MatLab/tremor_signal_{rec_nr}.csv', tremor_data, delimiter=',')
-        np.savetxt(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/MatLab/estimated_frequency_{rec_nr}.csv', estimated_frequency, delimiter=',')
+        np.savetxt(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/MatLab/tremor_signal_{rec_nr}.csv', tremor_data, delimiter=',')
+        np.savetxt(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/MatLab/estimated_frequency_{rec_nr}.csv', estimated_frequency, delimiter=',')
         #plt.plot(signalTime, noiseSignal)
         plt.tight_layout(pad=0.1)
         if save_to_file and rec_nr != 0:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Signals/signal{rec_nr}.pdf',format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Signals/signal{rec_nr}.pdf',format='pdf')
         elif save_to_file and sim_nr != 0:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Signals/signal_sim{sim_nr}.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Signals/signal_sim{sim_nr}.pdf',
                 format='pdf')
         if show:
             plt.show()
@@ -588,10 +588,10 @@ def run_BMWFLC(f_min = 4, f_max = 6, dT = 0.01, dF = 0.1, plot_update_rate = 100
         plt.legend(frameon=True, prop={'size': 15}, markerscale=3)
         plt.tight_layout(pad=0.1)
         if save_to_file and rec_nr != 0:
-            plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Estimates/estimate{rec_nr}.pdf',format='pdf')
+            plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Estimates/estimate{rec_nr}.pdf',format='pdf')
         elif save_to_file and sim_nr != 0:
             plt.savefig(
-                f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Estimates/estimate_sim{sim_nr}.pdf',
+                f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Estimates/estimate_sim{sim_nr}.pdf',
                 format='pdf')
         if show:
             plt.show()
@@ -613,7 +613,7 @@ def run_BMWFLC(f_min = 4, f_max = 6, dT = 0.01, dF = 0.1, plot_update_rate = 100
             plt.tight_layout(pad=0.1)
             if save_to_file:
                 plt.savefig(
-                    f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/ErrorPlots/ErrorPlot_sim{sim_nr}.pdf',
+                    f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/ErrorPlots/ErrorPlot_sim{sim_nr}.pdf',
                     format='pdf')
             if show:
                 plt.show()
@@ -632,7 +632,7 @@ def run_BMWFLC(f_min = 4, f_max = 6, dT = 0.01, dF = 0.1, plot_update_rate = 100
             plt.tight_layout(pad=0.1)
             if save_to_file:
                 plt.savefig(
-                    f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/ErrorPlots/ErrorPlot_sim{sim_nr}_Zoom.pdf',
+                    f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/ErrorPlots/ErrorPlot_sim{sim_nr}_Zoom.pdf',
                     format='pdf')
             if show:
                 plt.show()
@@ -811,7 +811,7 @@ def plot_test(nr, data, dT=0.01):
     plt.yticks(size=15)
     plt.plot(time, data[0])
     plt.tight_layout(pad=0.1)
-    plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Signals/signal_DVA{nr}.pdf',format='pdf')
+    plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Signals/signal_DVA{nr}.pdf',format='pdf')
 
     #plt.title(f"Test {nr} Gyro")
 
@@ -833,7 +833,7 @@ def plot_test(nr, data, dT=0.01):
     plt.plot(time, data[2], ".", label=f"Estimate {1}")
     plt.legend(frameon=True, prop={'size': 15}, markerscale=3)
     plt.tight_layout(pad=0.1)
-    plt.savefig(f'/Users/bjartesunde/Dropbox/NTNU/Masteroppgave/LaTeX/NTNU Project Thesis/fig/Estimates/estimate_DVA{nr}.pdf',format='pdf')
+    plt.savefig(f'/Users/shahr/Onedrive - NTNU/TTK4900 Masteroppgave/Code/UR5 - Master/data/fig/Estimates/estimate_DVA{nr}.pdf',format='pdf')
     #plt.plot(time, data[3], ".", label=f"Estimate {2}")
     plt.show()
     plt.clf()
@@ -854,9 +854,9 @@ while True:
     #run_BMWFLC(plot=True, tremor_data=readFromFileChFig7()[0],mu=1, d=0.009, g=100, h=0.001, f_min=4, f_max=8, dF=0.1, dT=0.01, Tp=1, alpha=0.67, beta=100,l=0.1, peaks_to_track=1)
     #run_BMWFLC(plot=True, tremor_data=signal,frequencies = frequencies,mu=1, d=0.009, g=100, h=0.001, f_min=4, f_max=8, dF=0.1, dT=0.01, Tp=1, alpha=0.67, beta=100,l=0.1, peaks_to_track=1)
 
-    #un_BMWFLC(plot=True, tremor_data=readFromFileChFig1()[0],mu   =0, kappa = 0.01, g = 200, h = 0.0001, f_min = 3, f_max = 20, dF = 0.1, dT = 0.01, Tp = 2, alpha = 0.67, beta = 10, l = 0.1, peaks_to_track = 50, plot_update_rate = 1000, save_to_file = False, rec_nr = 1)
+    #run_BMWFLC(plot=True, tremor_data=readFromFileChFig1()[0],mu   =0, kappa = 0.01, g = 200, h = 0.0001, f_min = 3, f_max = 20, dF = 0.1, dT = 0.01, Tp = 2, alpha = 0.67, beta = 10, l = 0.1, peaks_to_track = 50, plot_update_rate = 1000, save_to_file = False, rec_nr = 1)
 
-    #plot_rec_1()
+    plot_rec_1()
     #plot_rec_2()
     #plot_rec_3()
     #plot_rec_4()
@@ -870,11 +870,11 @@ while True:
     #plot_rec_12()
     #plot_rec_13()
     #plot_rec_14()
-    plot_rec_15()
+    #plot_rec_15()
 
     #plot_sim_1_example()
 
-    plot_sim_1()
+    #plot_sim_1()
     #plot_sim_2()
     #plot_sim_3()
     #plot_sim_4()
@@ -887,7 +887,7 @@ while True:
 
 
     # ----------------- DVA signals ---------------------
-    nr = 2
+    #nr = 2
     #plot_test(nr, readFromTestUtenNr(nr))
     #plot_test(nr, readFromTestMasseNr(nr))
     #plot_test(nr, readFromTestDempingNr(nr))

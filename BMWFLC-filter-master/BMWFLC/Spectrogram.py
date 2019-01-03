@@ -18,8 +18,8 @@ def plot_psd(x,Fs=100):
 
 from fileReader import readFromAllFiles,readFromFileChFig1, readFromFileChFig3, readFromFileChFig4, readFromFileChFig5,readFromFileChFig6,readFromFileChFig7,readFromFileChFig8
 
-realMeasurmentData = readFromFileChFig6()
-realSignal = np.array(realMeasurmentData[1])
+realMeasurmentData = readFromFileChFig1()
+realSignal = np.array(realMeasurmentData[0])
 #realSignal, freq = signal_3()
 
 

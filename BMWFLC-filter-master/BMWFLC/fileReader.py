@@ -5,7 +5,7 @@ p = re.compile("[-+]?\d*\.\d*e*[-+]*\d*|\d+")
 
 def readFromFileChFig1():
     data = []
-    with open("TremorData/ChFig1.txt", "r") as csvfile:
+    with open("TremorData/accelerolog_4.txt", "r") as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
         for row in readCSV:
             data.append([float(i) for i in row])

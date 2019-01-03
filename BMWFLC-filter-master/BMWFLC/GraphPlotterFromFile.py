@@ -27,7 +27,7 @@ timestep = 0.01
 time = 0
 while(True):
 
-    f = open("ChFig1.txt", "r")  # opens file with name of "test.txt"
+    f = open("Tremordata/accelerolog_1.txt", "r")  # opens file with name of "test.txt"
 
     lines = []
     data = []

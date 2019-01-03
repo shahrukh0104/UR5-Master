@@ -2,137 +2,287 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bf5275e-00a2-4f34-8a63-2a075646113e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Filters.py" afterPath="$PROJECT_DIR$/Filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SignalGenerator.py" afterPath="$PROJECT_DIR$/SignalGenerator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/Final Code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Final Code.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GraphPlotterFromFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/GraphPlotterFromFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/fileReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID2_2plane" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID2_buoyancy_10N" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID2_compliance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID2_random_50persent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID2_resistance_50persent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_2plane" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_buoyancy_10N" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_compliance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_random_50persent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_resistance_50persent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_testing_notes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/PID_weight_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.0025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.005,preferance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.0050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.0075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/P-controller/Kp=0.0100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/CONTROLTEST_2_Kp=0.005" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/CONTROLTEST_Kp=0.005" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00250" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.00750" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.01000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.02500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.05000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PD-controller/Kp=0.0050,Kd=0.07500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000125" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000150" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000175" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000200" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000225" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PI-controller/Kp=0.005,Ki=0.000250" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.00025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.00500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.00750" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.01000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.05000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.10000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_force/PID-controller/Kp=0.005,Ki=0.000250,kd=0.25000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.10" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.20" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.25" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.30" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.40, prefered" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.50" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/Kp_T=0.75" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.10" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.20" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.30" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.40" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.50" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/P-controller-torque/bad data/Kp_T=0.60" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/CONTROLTEST_Kp_T=0.4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00250" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.00500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.02500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.05000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.07500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.10000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.25000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=0.75000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=1.00000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=10.0000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=15.0000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=2.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=20.0000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=25.0000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=5.00000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PD-controller-torque/Kp_T=0.4,Kd_T=7.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00200" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PI-controller-torque/Kp_T=0.4,Ki_T=0.00250" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00025" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00050" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00075" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00100" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00250" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.00750" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.01000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.02500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.05000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.07500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.10000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.25000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=0.75000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=1.00000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=10.0000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=2.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=5.00000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/controller_gain_estimation_torque/PID-controller-torque/Kp_T=0.4,Ki_T=0.00050,Kd_T=7.50000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/2-plane_mode/circle_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/2-plane_mode/functional_reach" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/2-plane_mode/functional_reach_2D" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/2-plane_mode/unused_logs/circle_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/buoyancy_mode/drinking_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/buoyancy_mode/functional_omni_reach_1_twist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/buoyancy_mode/unused_logs/drinking_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/buoyancy_mode/unused_logs/functional_omni_reach_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/buoyancy_mode/unused_logs/functional_omni_reach_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/random_mode/circle_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/random_mode/functional_omni_reach_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/random_mode/unused_logs/circle_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/random_mode/unused_logs/functional_omni_reach_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/resistance_mode/drinking_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/resistance_mode/functional_omni_reach_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/resistance_mode/unused_logs/drinking_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/force_mode_tests/resistance_mode/unused_logs/functional_omni_reach_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/gravity_compensation_testing/tool_bias_Rx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/gravity_compensation_testing/tool_bias_Ry" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/gravity_compensation_testing/tool_bias_Rz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/gravity_compensation_testing/tool_bias_deviation" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/inner_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/lower_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/outer_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/inner_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/lower_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/outer_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_inner_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_inner_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_lower_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_lower_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_outer_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_outer_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_upper_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/small_upper_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/unused_logs/upper_perimeter_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/perimeter_testing/upper_perimeter_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_force_Fx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_force_Fy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_force_Fz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_torque_8Nm_Rx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_torque_8Nm_Ry" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/max_torque_8Nm_Rz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/soft_torque_Rz_1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/soft_torque_Rz_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/exceed_force_levels" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/exceed_force_levels_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/exceed_torque_levels" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/exceed_torque_levels_2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/max_torque_Rx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/max_torque_Ry" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/safety_testing/unused logs/max_torque_Rz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/test_inner_parameter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/test_lower_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/test_outer_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/test_upper_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/tool_bias_Rx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/tool_bias_Ry" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/tool_bias_Rz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/tool_bias_deviation" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/virtual_workspace_tests/inner_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/virtual_workspace_tests/lower_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/virtual_workspace_tests/outer_perimeter" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/log_library_old/virtual_workspace_tests/upper_perimeter" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/BMWFLC$Spectrogram.coverage" NAME="Spectrogram Coverage Results" MODIFIED="1546535763540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BMWFLC$main.coverage" NAME="main Coverage Results" MODIFIED="1546553324865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BMWFLC$GraphPlotterFromFile.coverage" NAME="GraphPlotterFromFile Coverage Results" MODIFIED="1546536209864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1009659347">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="148" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="148" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="728" column="90" lean-forward="false" selection-start-line="728" selection-start-column="90" selection-end-line="728" selection-end-column="90" />
-              <folding>
-                <element signature="e#9890#11026#0" expanded="false" />
-                <element signature="e#11050#12158#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="133">
+              <caret line="858" column="4" selection-start-line="858" selection-start-column="4" selection-end-line="858" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Filters_Bakcup.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Filters_Bakcup.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/fileReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7989">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphPlotter.py" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GraphPlotterFromFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Spectrogram.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GraphPlotter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="357">
+              <caret line="21" column="16" lean-forward="true" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="backend_bases.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/backend_bases.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="263" column="18" lean-forward="false" selection-start-line="263" selection-start-column="14" selection-end-line="263" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tight_layout.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/tight_layout.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="325" column="0" lean-forward="false" selection-start-line="325" selection-start-column="0" selection-end-line="325" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1696">
-              <caret line="4970" column="0" lean-forward="true" selection-start-line="4970" selection-start-column="0" selection-end-line="4970" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="colormaps.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/colormaps.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="1094" column="7" lean-forward="true" selection-start-line="1094" selection-start-column="7" selection-end-line="1094" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pyplot.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/pyplot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20325">
-              <caret line="1405" column="0" lean-forward="false" selection-start-line="1405" selection-start-column="0" selection-end-line="1405" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignalGenerator.py" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SignalGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Filters.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Filters.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-930">
-              <caret line="320" column="44" lean-forward="true" selection-start-line="320" selection-start-column="44" selection-end-line="320" selection-end-column="44" />
-              <folding>
-                <element signature="e#143#1717#0" expanded="false" />
-                <element signature="e#143#443#1" expanded="false" />
-                <element signature="e#1737#3678#0" expanded="false" />
-                <element signature="e#1737#2061#1" expanded="false" />
-                <element signature="e#3700#5766#0" expanded="false" />
-                <element signature="e#8639#9752#0" expanded="false" />
-                <element signature="e#9800#11042#0" expanded="false" />
-                <element signature="e#11093#11566#0" expanded="false" />
-                <element signature="e#11622#12946#0" expanded="false" />
-                <element signature="e#12996#13323#0" expanded="false" />
-                <element signature="e#13352#13957#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="-5089">
+              <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -148,8 +298,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>plot_heatmap</find>
-      <find>magnitudes</find>
       <find>plot</find>
       <find>show</find>
       <find>clf</find>
@@ -178,10 +326,12 @@
       <find>reset</find>
       <find>plotPSD_DVA</find>
       <find>heatmap</find>
+      <find>plot_sim_1()</find>
+      <find>simulated_signal</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -193,62 +343,43 @@
         <option value="$PROJECT_DIR$/Magnitude_spectrum_plot.py" />
         <option value="$PROJECT_DIR$/Test.py" />
         <option value="$PROJECT_DIR$/Tremor_fig1_plot.py" />
-        <option value="$PROJECT_DIR$/Spectrogram.py" />
         <option value="$PROJECT_DIR$/test.out" />
         <option value="$PROJECT_DIR$/peaks.txt" />
         <option value="$PROJECT_DIR$/TremorData/log3.rtf" />
         <option value="$PROJECT_DIR$/TremorData/log3.txt" />
-        <option value="$PROJECT_DIR$/fileReader.py" />
         <option value="$PROJECT_DIR$/TremorData/ChFig1.txt" />
         <option value="$PROJECT_DIR$/Plots/Tremor_fig1_plot.py" />
         <option value="$PROJECT_DIR$/Filters.py" />
         <option value="$PROJECT_DIR$/SignalGenerator.py" />
+        <option value="$PROJECT_DIR$/GraphPlotterFromFile.py" />
+        <option value="$PROJECT_DIR$/Spectrogram.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/fileReader.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="y" value="20" />
     <option name="width" value="1440" />
-    <option name="height" value="874" />
+    <option name="height" value="875" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Final Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Final Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/fileReader.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -260,121 +391,19 @@
       <recent name="$PROJECT_DIR$/Plots" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="RunManager" selected="Python.main">
-    <configuration default="false" name="FourierPlot" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Plots/FourierPlot.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Magnitude_spectrum_plot" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Plots/Magnitude_spectrum_plot.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Spectrogram" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Spectrogram.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Tremor_fig1_plot" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Plots/Tremor_fig1_plot.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -394,111 +423,156 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
+    <configuration name="GraphPlotterFromFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Final Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GraphPlotterFromFile.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Magnitude_spectrum_plot" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Final Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Plots/Magnitude_spectrum_plot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Spectrogram" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Final Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Spectrogram.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Tremor_fig1_plot" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Final Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Plots/Tremor_fig1_plot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="Final Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python">
+      <module name="Final Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Final Code" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
-      <method />
-    </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.FourierPlot" />
-      <item index="1" class="java.lang.String" itemvalue="Python.main" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Magnitude_spectrum_plot" />
-      <item index="3" class="java.lang.String" itemvalue="Python.Spectrogram" />
-      <item index="4" class="java.lang.String" itemvalue="Python.Tremor_fig1_plot" />
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.GraphPlotterFromFile" />
+      <item itemvalue="Python.Magnitude_spectrum_plot" />
+      <item itemvalue="Python.Spectrogram" />
+      <item itemvalue="Python.Tremor_fig1_plot" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.main" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Tremor_fig1_plot" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Spectrogram" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Magnitude_spectrum_plot" />
-        <item index="4" class="java.lang.String" itemvalue="Python.FourierPlot" />
+      <list>
+        <item itemvalue="Python.GraphPlotterFromFile" />
+        <item itemvalue="Python.Spectrogram" />
+        <item itemvalue="Python.Tremor_fig1_plot" />
+        <item itemvalue="Python.Magnitude_spectrum_plot" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -519,51 +593,64 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13389711" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07124682" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16879795" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24926686" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45140666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994455" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" order="0" weight="0.24899329" />
+      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="2" weight="0.3295302" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32994455" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932885" visible="true" weight="0.16778524" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.45140666" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" weight="0.07124682" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Python Console" order="9" weight="0.32885906" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50067115" side_tool="true" weight="0.16778524" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" x="0" y="0" width="337" height="678" id="Documentation" order="4" side_tool="true" weight="0.3295302" />
+      <window_info anchor="right" id="Database" order="5" />
     </layout>
     <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07124682" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08951407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15715292" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994455" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24926686" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45140666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" order="0" weight="0.24926686" />
+      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.15715292" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32994455" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.08951407" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.45140666" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.07124682" />
+      <window_info anchor="bottom" id="Python Console" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../.." />
+      <path value="$PROJECT_DIR$/.." />
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
     <MESSAGE value="Heatmap added. Plotting for simulated and real data added. Plotting for more simulated data and the data from the microcontroller remains" />
     <option name="LAST_COMMIT_MESSAGE" value="Heatmap added. Plotting for simulated and real data added. Plotting for more simulated data and the data from the microcontroller remains" />
   </component>
@@ -579,18 +666,10 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="105" />
     </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/scipy/signal/filter_design.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="349" column="15" lean-forward="false" selection-start-line="349" selection-start-column="15" selection-end-line="349" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/scipy/signal/filter_design.py" />
     <entry file="file://$PROJECT_DIR$/bandpass_filter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
@@ -599,20 +678,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/estimated_frequency.csv" />
-    <entry file="file://$PROJECT_DIR$/photos_to_video.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GraphPlotterFromFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.out" />
     <entry file="file://$PROJECT_DIR$/tremor_signal.csv" />
     <entry file="file://$PROJECT_DIR$/Test.py" />
@@ -623,13 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Spectrogram.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="21" column="42" lean-forward="false" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Plots/FourierPlot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -637,53 +695,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/core/numeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="530" column="0" lean-forward="false" selection-start-line="530" selection-start-column="0" selection-end-line="530" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/lines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="684" column="0" lean-forward="false" selection-start-line="684" selection-start-column="0" selection-end-line="684" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/core/numeric.py" />
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/lines.py" />
     <entry file="file://$PROJECT_DIR$/test" />
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="308" column="0" lean-forward="false" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/codecs.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23400">
-          <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
+          <caret line="1595" selection-start-line="1595" selection-end-line="1595" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/core/_methods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/lib/function_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73155">
-          <caret line="4909" column="0" lean-forward="false" selection-start-line="4909" selection-start-column="0" selection-end-line="4909" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/core/_methods.py" />
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/numpy/lib/function_base.py" />
     <entry file="file://$PROJECT_DIR$/peaks.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1425">
-          <caret line="95" column="28" lean-forward="false" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
+          <caret line="95" column="28" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -691,7 +719,7 @@
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
@@ -705,227 +733,157 @@
     <entry file="file://$PROJECT_DIR$/TremorData/chfig6.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="35" lean-forward="false" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TremorData/chfig5.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/TremorData/chfig7.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82440">
-          <caret line="5496" column="8" lean-forward="false" selection-start-line="5496" selection-start-column="8" selection-end-line="5496" selection-end-column="8" />
+          <caret line="5496" column="8" selection-start-line="5496" selection-start-column="8" selection-end-line="5496" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/figure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25755">
-          <caret line="1752" column="0" lean-forward="false" selection-start-line="1752" selection-start-column="0" selection-end-line="1752" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/figure.py" />
     <entry file="file://$PROJECT_DIR$/DVAtest/Test1/Settings.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test1/Med demping.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test1/Med masse.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test1/Uten masse.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test3/Uten masse.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test3/Settings.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test3/Med masse.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/TremorData/chfig4.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/TremorData/chfig3.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/TremorData/log3.txt" />
     <entry file="file://$PROJECT_DIR$/TremorData/ChFig1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
-          <caret line="982" column="15" lean-forward="false" selection-start-line="982" selection-start-column="15" selection-end-line="982" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fileReader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="22" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="22" />
-          <folding />
+          <caret line="982" column="15" selection-start-line="982" selection-start-column="15" selection-end-line="982" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DVAtest/Test3/Med demping.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Plots/Tremor_fig1_plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2355">
-          <caret line="158" column="4" lean-forward="false" selection-start-line="158" selection-start-column="4" selection-end-line="159" selection-end-column="122" />
-          <folding />
+          <caret line="158" column="4" selection-start-line="158" selection-start-column="4" selection-end-line="159" selection-end-column="122" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/axes/_base.py">
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/axes/_base.py" />
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/pyplot.py" />
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/tight_layout.py" />
+    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/backend_bases.py" />
+    <entry file="file://$PROJECT_DIR$/Filters_Bakcup.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Spectrogram.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5370">
-          <caret line="396" column="18" lean-forward="false" selection-start-line="396" selection-start-column="18" selection-end-line="396" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="357">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/pyplot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20325">
-          <caret line="1405" column="0" lean-forward="false" selection-start-line="1405" selection-start-column="0" selection-end-line="1405" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/tight_layout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="325" column="0" lean-forward="false" selection-start-line="325" selection-start-column="0" selection-end-line="325" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/photos_to_video.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/colormaps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="1094" column="7" lean-forward="true" selection-start-line="1094" selection-start-column="7" selection-end-line="1094" selection-end-column="7" />
-          <folding />
+        <state relative-caret-position="7559">
+          <caret line="1094" column="7" selection-start-line="1094" selection-start-column="7" selection-end-line="1094" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1696">
-          <caret line="4970" column="0" lean-forward="true" selection-start-line="4970" selection-start-column="0" selection-end-line="4970" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="561">
+          <caret line="4970" selection-start-line="4970" selection-end-line="4970" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-930">
-          <caret line="320" column="44" lean-forward="true" selection-start-line="320" selection-start-column="44" selection-end-line="320" selection-end-column="44" />
+        <state relative-caret-position="1258">
+          <caret line="320" column="44" selection-start-line="320" selection-start-column="44" selection-end-line="320" selection-end-column="44" />
           <folding>
-            <element signature="e#143#1717#0" expanded="false" />
-            <element signature="e#143#443#1" expanded="false" />
-            <element signature="e#1737#3678#0" expanded="false" />
-            <element signature="e#1737#2061#1" expanded="false" />
-            <element signature="e#3700#5766#0" expanded="false" />
-            <element signature="e#8639#9752#0" expanded="false" />
-            <element signature="e#9800#11042#0" expanded="false" />
-            <element signature="e#11093#11566#0" expanded="false" />
-            <element signature="e#11622#12946#0" expanded="false" />
-            <element signature="e#12996#13323#0" expanded="false" />
-            <element signature="e#13352#13957#0" expanded="false" />
+            <element signature="e#143#1717#0" />
+            <element signature="e#143#443#1" />
+            <element signature="e#1737#3678#0" />
+            <element signature="e#1737#2061#1" />
+            <element signature="e#3700#5766#0" />
+            <element signature="e#8639#9752#0" />
+            <element signature="e#9800#11042#0" />
+            <element signature="e#11093#11566#0" />
+            <element signature="e#11622#12946#0" />
+            <element signature="e#12996#13323#0" />
+            <element signature="e#13352#13957#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/AI/lib/python3.6/site-packages/matplotlib/backend_bases.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="263" column="18" lean-forward="false" selection-start-line="263" selection-start-column="14" selection-end-line="263" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignalGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="-5089">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GraphPlotter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="357">
+          <caret line="21" column="16" lean-forward="true" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Filters_Bakcup.py">
+    <entry file="file://$PROJECT_DIR$/GraphPlotterFromFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7989">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="728" column="90" lean-forward="false" selection-start-line="728" selection-start-column="90" selection-end-line="728" selection-end-column="90" />
-          <folding>
-            <element signature="e#9890#11026#0" expanded="false" />
-            <element signature="e#11050#12158#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="133">
+          <caret line="858" column="4" selection-start-line="858" selection-start-column="4" selection-end-line="858" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fileReader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
         </state>
       </provider>
     </entry>
