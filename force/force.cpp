@@ -335,11 +335,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 1;
-	double m = 0.5;
+	double desired_frequency = 9;
+	double m = 2;
 	double k = pow(desired_frequency, 2)*m; 
 	double crictical_damping = 2*sqrt(k*m);
-	double c = 0.3*crictical_damping; 
+	double c = 0.2*crictical_damping; 
 	
 
 	//PID controller gain parameters
@@ -536,9 +536,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = vw[0] + x_acc*iteration_time; 
+		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
 		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
-		vw[2] = 0;//vw[2] + z_acc*iteration_time;
+		vw[2] = vw[2] + z_acc*iteration_time;
 		vw[3] = 0;//u_Tx;
 		vw[4] = 0;//u_Ty;
 		vw[5] = 0;//u_Tz;
