@@ -263,7 +263,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//DEFINE JOINT POSITION, VELOCITY AND ACCELERATION
 	std::vector<double> q = ur5->rt_interface_->robot_state_->getQActual();
 	std::vector<double> qd = ur5->rt_interface_->robot_state_->getQdActual();
-	std::vector<double> qdd = {0, 0, 0, 0, 0, 0};
 
 
 	double theta;
@@ -336,8 +335,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 5;
-	double m = 2;
+	double desired_frequency = 1;
+	double m = 0.5;
 	double k = pow(desired_frequency, 2)*m; 
 	double crictical_damping = 2*sqrt(k*m);
 	double c = 0.3*crictical_damping; 
@@ -538,11 +537,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 		//SOLVE AND SEND TO MANIPULATOR
 		vw[0] = vw[0] + x_acc*iteration_time; 
-		vw[1] = vw[1] + y_acc*iteration_time;  
-		vw[2] = vw[2] + z_acc*iteration_time;
-		vw[3] = u_Tx;
-		vw[4] = u_Ty;
-		vw[5] = u_Tz;
+		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
+		vw[2] = 0;//vw[2] + z_acc*iteration_time;
+		vw[3] = 0;//u_Tx;
+		vw[4] = 0;//u_Ty;
+		vw[5] = 0;//u_Tz;
 		solveInverseJacobian(q, vw, speed);
 		
 		
