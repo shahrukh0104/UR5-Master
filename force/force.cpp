@@ -131,29 +131,30 @@ void vector_trans_base_tool(std::vector<double> q, double vector_in[3], double v
 	
 }
 
-// void vector_trans_tool_base(std::vector<double> q, double vector_in[3], double vector_out[3])
-// {	
-// 	gsl_matrix *R = gsl_matrix_calloc(3,3);
-// 	gsl_vector *O = gsl_vector_alloc(3);
+void vector_trans_tool_base(std::vector<double> q, double vector_in[3], double vector_out[3])
+{	
+	gsl_matrix *R = gsl_matrix_calloc(3,3);
+	gsl_vector *O = gsl_vector_alloc(3);
 	
-// 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
-// 	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
+	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
+	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
 
-// 	tfrotype tfkin;
-// 	R->data=tfkin.R;
-// 	O->data=tfkin.O;
-// 	ufwdkin(&tfkin,q.data(),apar,dpar);
+	tfrotype tfkin;
+	R->data=tfkin.R;
+	O->data=tfkin.O;
+	ufwdkin(&tfkin,q.data(),apar,dpar);
 
+	gsl_matrix_transpose(R);
 
-// 	for (int i=0; i<3; i++)
-// 	{
-// 		for (int j=0; j<3 ;j++)
-// 		{
-// 			vector_out[i] += vector_in[j]*gsl_matrix_get(R, i, j);
-// 		}
-// 	}
+	for (int i=0; i<3; i++)
+	{
+		for (int j=0; j<3 ;j++)
+		{
+			vector_out[i] += vector_in[j]*gsl_matrix_get(R, j, i);
+		}
+	}
 	
-// }
+}
 
 void cross_product(const gsl_vector *u, const gsl_vector *v, gsl_vector *product)
 {
@@ -326,7 +327,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
 	//STATIC F/T MOUNTING BIAS
-	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0], rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]};
+	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0], rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]+1};
 	double bias_force[3];
 	double bias_torque[3] = {rawFTdata[3], rawFTdata[4], rawFTdata[5]};
 	
@@ -341,8 +342,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double error_y_eq = 0;
 	double error_z_eq = 0;
 
-	// double error_pos[3];
-	// double error_pos_tool[3];
+	double error_pos[3];
+	double error_pos_tool[3];
 
 	double x_acc;
 	double y_acc;
@@ -406,8 +407,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 9;
-	double m = 2;
+	double desired_frequency = 7;
+	double m = 1;
 	double k = pow(desired_frequency, 2)*m; 
 	double crictical_damping = 2*sqrt(k*m);
 	double c = 0.2*crictical_damping; 
@@ -433,14 +434,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
 	 // 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
 
-
-
-		// if (i == 500){
-		// 	references[2] = 5;
-		// }
-		// if (i == 600){
-		// 	references[2] = 0;
-		// }
+		if (i<=250){
+			references[0] += 0.004;
+		}
+		else{
+			references[0] = 0;
+		}
 
 
 		std::mutex msg_lock;
@@ -503,14 +502,14 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 		//HANDNESS TEST
 
-		handed = triple_scalar_product(Rx,Ry,Rz);
-		if (handed < 0){
-			std::cout << "RIGHT HANDED!!!" << endl;
-			break;
-		}
-		else if (i%100){
-			std::cout << "LEFT HANDED!!!" << endl;
-		}
+		// handed = triple_scalar_product(Rx,Ry,Rz);
+		// if (handed < 0){
+		// 	std::cout << "RIGHT HANDED!!!" << endl;
+		// 	break;
+		// }
+		// else if (i%100){
+		// 	std::cout << "LEFT HANDED!!!" << endl;
+		// }
 
 		//FORCE ERROR UPDATES
 		error_Fx = error_Fy = error_Fz = 0;
@@ -614,37 +613,25 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 		
 		//ADMITTANCE CONTROLLER ERROR 
-		// error_pos[0] = tfkin.O[0] - DESIREDXPOS; 
-		// error_pos[1] = DESIREDYPOS - tfkin.O[1]; 
-		// error_pos[2] = DESIREDZPOS - tfkin.O[2]; 
+		error_pos[0] = tfkin.O[0] - DESIREDXPOS; 
+		error_pos[1] = tfkin.O[1] - DESIREDYPOS; 
+		error_pos[2] = tfkin.O[2] - DESIREDZPOS; 
 		
-		// error_pos_tool[0] = error_pos_tool[1] = error_pos_tool[2] = 0;
-		// vector_trans_tool_base(q, error_pos, error_pos_tool);
+		error_pos_tool[0] = error_pos_tool[1] = error_pos_tool[2] = 0;
+		vector_trans_base_tool(q, error_pos, error_pos_tool);
 
 		// //ADMITTANCE CONTROLLER DYNAMICS
-		// x_acc = (1.0/m)*(-c*vw[0] - k*error_pos_tool[0] + force_tresh[0] + references[0]); 
-		// y_acc = (1.0/m)*(-c*vw[1] - k*error_pos_tool[1] + force_tresh[1] + references[1]); 
-		// z_acc = (1.0/m)*(-c*vw[2] - k*error_pos_tool[2] + force_tresh[2] + references[2]); 
-
-
-		// std::cout << "error_pos[0]: " << error_pos[0] << endl;
-		// std::cout << "error_pos_tool[0]: " << error_pos_tool[0] << endl;
-		// std::cout << "vw[0]: " << vw[0] << endl;
-		// std::cout << "tfkin.O[0]: " << tfkin.O[0] << endl;
-		// std::cout << "force_tresh[0]: " << force_tresh[0] << endl; 
-		// std::cout << "references[2]: " << references[2] << endl;
-
-
-
-
+		x_acc = (1.0/m)*(-c*vw[0] - k*error_pos_tool[0] + force_tresh[0] + references[0]); 
+		y_acc = (1.0/m)*(-c*vw[1] - k*error_pos_tool[1] + force_tresh[1] + references[1]); 
+		z_acc = (1.0/m)*(-c*vw[2] - k*error_pos_tool[2] + force_tresh[2] + references[2]); 
 
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = u_Fx; //vw[0] + x_acc*iteration_time; 
-		vw[1] = u_Fy; //vw[1] + y_acc*iteration_time;  
-		vw[2] = u_Fz; //vw[2] + z_acc*iteration_time;
-		vw[3] = u_Tx; //u_Tx;
-		vw[4] = u_Ty; //u_Ty;
-		vw[5] = u_Tz;
+		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
+		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
+		vw[2] = vw[2] + z_acc*iteration_time;
+		vw[3] = 0;//u_Tx;
+		vw[4] = 0;//u_Ty;
+		vw[5] = 0;//u_Tz;
 		solveInverseJacobian(q, vw, speed);
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();

@@ -187,6 +187,7 @@ int main()
 	std::cout << std::endl;
 	std::cout << std::endl;
 
+	double deg2rad = 3.14159/180;
 	//Displays current pose
 	// double q[6];
 	// getq(&ur5, &rt_msg_cond_, q);	
@@ -198,6 +199,12 @@ int main()
 	double q_start[6] = {0.377885, -2.60787, -2.07686, -1.57022, -0.872731, 1.62437};
 	double q_start_force_tuner_testing[6] = {0.214268, -2.46378, -1.66631, -3.72433, -1.59585, 1.92308};
 	double q_start_torque_tuner_testing[6] = {0.269024, -2.45595, -1.74306, -3.66909, -1.5577, 1.96192};
+	double q_start_admittance[6] = {0.928292, -2.33606, -1.50455, -3.73457, -1.7547, 1.96192};
+	//double q_start_admittance[6] = {deg2rad*33.558, deg2rad*-119.574,deg2rad*-116.089, deg2rad*-32.671, deg2rad*90.357, deg2rad*199.183}; 
+	double q_start_dva_step[6] = {0.573911, -2.33466, -1.71691, -3.78423, -1.57042, 2.27075};
+
+
+
 
 	char user_ready;
 	char readyready;
@@ -211,7 +218,7 @@ int main()
 			// MOVE TO STARING POINT
 			std::cout << "======================== POSITION CONTROL ACTIVE ========================" << std::endl;
 			std::cout << "Moving to staring location... ";
-			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start_torque_tuner_testing, 1, 1);
+			moveSimpleJointDirect(&ur5, &rt_msg_cond_, q_start_dva_step, 1, 1);
 			std::cout << "Press \"Y\" when box is placed and you are ready";
 			std::cin >> readyready;
 			if (readyready == 'Y'|| readyready == 'y'){
