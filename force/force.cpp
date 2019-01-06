@@ -131,6 +131,74 @@ void vector_trans_base_tool(std::vector<double> q, double vector_in[3], double v
 	
 }
 
+// void vector_trans_tool_base(std::vector<double> q, double vector_in[3], double vector_out[3])
+// {	
+// 	gsl_matrix *R = gsl_matrix_calloc(3,3);
+// 	gsl_vector *O = gsl_vector_alloc(3);
+	
+// 	double apar[6] = {0,-0.42500,-0.39225,0,0,0};
+// 	double dpar[6] = {0.089159,0,0,0.10915,0.09465,0.08313};
+
+// 	tfrotype tfkin;
+// 	R->data=tfkin.R;
+// 	O->data=tfkin.O;
+// 	ufwdkin(&tfkin,q.data(),apar,dpar);
+
+
+// 	for (int i=0; i<3; i++)
+// 	{
+// 		for (int j=0; j<3 ;j++)
+// 		{
+// 			vector_out[i] += vector_in[j]*gsl_matrix_get(R, i, j);
+// 		}
+// 	}
+	
+// }
+
+void cross_product(const gsl_vector *u, const gsl_vector *v, gsl_vector *product)
+{
+        double p1 = gsl_vector_get(u, 1)*gsl_vector_get(v, 2)
+                - gsl_vector_get(u, 2)*gsl_vector_get(v, 1);
+
+        double p2 = gsl_vector_get(u, 2)*gsl_vector_get(v, 0)
+                - gsl_vector_get(u, 0)*gsl_vector_get(v, 2);
+
+        double p3 = gsl_vector_get(u, 0)*gsl_vector_get(v, 1)
+                - gsl_vector_get(u, 1)*gsl_vector_get(v, 0);
+
+        gsl_vector_set(product, 0, p1);
+        gsl_vector_set(product, 1, p2);
+        gsl_vector_set(product, 2, p3);
+}
+
+double triple_scalar_product(const gsl_vector *u, const gsl_vector *v, const gsl_vector *w)
+{
+        double result;
+        double tmp[] = {0.0, 0.0, 0.0};
+        gsl_vector_view vxw = gsl_vector_view_array((double *) &tmp, 3);
+
+        cross_product(v, w, &vxw.vector);
+        gsl_blas_ddot(u, &vxw.vector, &result);
+
+        return result;
+}
+
+const vector<string> explode(const string& s, const char& c)
+{
+	string buff{""};
+	vector<string> v;
+	
+	for(auto n:s)
+	{
+		if(n != c) buff+=n; else
+		if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+	}
+	if(buff != "") v.push_back(buff);
+	
+	return v;
+}
+
+
 void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 {
 	gsl_vector *x = gsl_vector_alloc(6);
@@ -185,25 +253,6 @@ void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
 		}
 	}
 }
-
-
-const vector<string> explode(const string& s, const char& c)
-{
-	string buff{""};
-	vector<string> v;
-	
-	for(auto n:s)
-	{
-		if(n != c) buff+=n; else
-		if(n == c && buff != "") { v.push_back(buff); buff = ""; }
-	}
-	if(buff != "") v.push_back(buff);
-	
-	return v;
-}
-
-
-
 
 
 void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time)//, double des_x, double des_y, double des_z)
@@ -287,16 +336,19 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double force_tresh[3];
 	double torque_tresh[3];
 
-
 	//ADMITTANCE CONTROLLER VARIABLES
 	double error_x_eq = 0;
 	double error_y_eq = 0;
 	double error_z_eq = 0;
 
+	// double error_pos[3];
+	// double error_pos_tool[3];
 
 	double x_acc;
 	double y_acc;
 	double z_acc;
+
+	
 
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
@@ -316,12 +368,33 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double DESIREDXPOS = tfkin.O[0];
 	double DESIREDYPOS = tfkin.O[1];
 	double DESIREDZPOS = tfkin.O[2];
+	
+	gsl_vector *Rx = gsl_vector_alloc(3);
+	gsl_vector *Ry = gsl_vector_alloc(3);
+	gsl_vector *Rz = gsl_vector_alloc(3);
 
+	gsl_vector_set(Rx,0,gsl_matrix_get(R,0,0));
+	gsl_vector_set(Rx,1,gsl_matrix_get(R,0,1));
+	gsl_vector_set(Rx,2,gsl_matrix_get(R,0,2));
+
+	gsl_vector_set(Ry,0,gsl_matrix_get(R,1,0));
+	gsl_vector_set(Ry,1,gsl_matrix_get(R,1,1));
+	gsl_vector_set(Ry,2,gsl_matrix_get(R,1,2));
+
+	gsl_vector_set(Rz,0,gsl_matrix_get(R,2,0));
+	gsl_vector_set(Rz,1,gsl_matrix_get(R,2,1));
+	gsl_vector_set(Rz,2,gsl_matrix_get(R,2,2));
+
+	double handed;
 
 	//FORCE/TORQUE VECTOR FOR LOW-PASS FILTERING
 	// std::vector<double> force_tresh_lp_x;
 	// std::vector<double> force_tresh_lp_y;
 	// std::vector<double> force_tresh_lp_z;
+
+
+	// double RC = 1/(5*2*3.14);
+	// double alpha = 1/(RC + 1);
 
 
   	//ARDUINO DATA VARIABLE/VECTOR ALLOCATION
@@ -331,8 +404,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	// double ArduinoAccelerometerData;
 	
 
-	// double RC = 1/(5*2*3.14);
-	// double alpha = 1/(RC + 1);
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
 	double desired_frequency = 9;
@@ -362,6 +433,14 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
 	 // 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
 
+
+
+		// if (i == 500){
+		// 	references[2] = 5;
+		// }
+		// if (i == 600){
+		// 	references[2] = 0;
+		// }
 
 
 		std::mutex msg_lock;
@@ -403,7 +482,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		force_tresh[1] = (1- exp(-pow(forces[1], 2)/pow(0.2, 2)))*forces[1];
 		force_tresh[2] = (1- exp(-pow(forces[2], 2)/pow(0.2, 2)))*forces[2];
 
-		
+		//vector_trans_tool_base(q,force_tresh, force_tresh_base);
 		// //LOW-PASS FILTER FORCES
 		
 		// force_tresh_lp_x.push_back(force_tresh[0]);
@@ -421,6 +500,17 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// 	std::cout << "i: " << i << std::endl;
 		// }
 
+
+		//HANDNESS TEST
+
+		handed = triple_scalar_product(Rx,Ry,Rz);
+		if (handed < 0){
+			std::cout << "RIGHT HANDED!!!" << endl;
+			break;
+		}
+		else if (i%100){
+			std::cout << "LEFT HANDED!!!" << endl;
+		}
 
 		//FORCE ERROR UPDATES
 		error_Fx = error_Fy = error_Fz = 0;
@@ -524,26 +614,38 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 		
 		//ADMITTANCE CONTROLLER ERROR 
-		error_x_eq = tfkin.O[0] - DESIREDXPOS; 
-		error_y_eq = DESIREDYPOS - tfkin.O[1]; 
-		error_z_eq = DESIREDZPOS - tfkin.O[2]; 
+		// error_pos[0] = tfkin.O[0] - DESIREDXPOS; 
+		// error_pos[1] = DESIREDYPOS - tfkin.O[1]; 
+		// error_pos[2] = DESIREDZPOS - tfkin.O[2]; 
 		
+		// error_pos_tool[0] = error_pos_tool[1] = error_pos_tool[2] = 0;
+		// vector_trans_tool_base(q, error_pos, error_pos_tool);
 
-		//ADMITTANCE CONTROLLER DYNAMICS
-		x_acc = (1.0/m)*(-c*vw[0] - k*error_x_eq + force_tresh[0]); 
-		y_acc = (1.0/m)*(-c*vw[1] - k*error_y_eq + force_tresh[1]); 
-		z_acc = (1.0/m)*(-c*vw[2] - k*error_z_eq + force_tresh[2]); 
+		// //ADMITTANCE CONTROLLER DYNAMICS
+		// x_acc = (1.0/m)*(-c*vw[0] - k*error_pos_tool[0] + force_tresh[0] + references[0]); 
+		// y_acc = (1.0/m)*(-c*vw[1] - k*error_pos_tool[1] + force_tresh[1] + references[1]); 
+		// z_acc = (1.0/m)*(-c*vw[2] - k*error_pos_tool[2] + force_tresh[2] + references[2]); 
+
+
+		// std::cout << "error_pos[0]: " << error_pos[0] << endl;
+		// std::cout << "error_pos_tool[0]: " << error_pos_tool[0] << endl;
+		// std::cout << "vw[0]: " << vw[0] << endl;
+		// std::cout << "tfkin.O[0]: " << tfkin.O[0] << endl;
+		// std::cout << "force_tresh[0]: " << force_tresh[0] << endl; 
+		// std::cout << "references[2]: " << references[2] << endl;
+
+
+
 
 
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
-		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
-		vw[2] = vw[2] + z_acc*iteration_time;
-		vw[3] = 0;//u_Tx;
-		vw[4] = 0;//u_Ty;
-		vw[5] = 0;//u_Tz;
+		vw[0] = u_Fx; //vw[0] + x_acc*iteration_time; 
+		vw[1] = u_Fy; //vw[1] + y_acc*iteration_time;  
+		vw[2] = u_Fz; //vw[2] + z_acc*iteration_time;
+		vw[3] = u_Tx; //u_Tx;
+		vw[4] = u_Ty; //u_Ty;
+		vw[5] = u_Tz;
 		solveInverseJacobian(q, vw, speed);
-		
 		
 		ur5->rt_interface_->robot_state_->setDataPublished();
 		ur5->setSpeed(speed[0], speed[1], speed[2], speed[3], speed[4], speed[5], 100);
@@ -557,6 +659,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		prior_error_Ty = error_Ty;
 		prior_error_Tz = error_Tz;
 
+		
 
 
 		//DATA LOGGING
@@ -587,11 +690,28 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		
 		//accelerolog << ArduinoAccelerometerData << endl;
 
-
 		i += 1;
 		usleep(iteration_sleeptime);
 
-		
+		// std::cout << "(R,0,0): " << gsl_matrix_get(R,0,0) << endl;
+		// std::cout << "(R,0,1): " << gsl_matrix_get(R,0,1) << endl;
+		// std::cout << "(R,0,2): " << gsl_matrix_get(R,0,2) << endl << endl;
+
+		// std::cout << "(R,1,0): " << gsl_matrix_get(R,1,0) << endl;
+		// std::cout << "(R,1,1): " << gsl_matrix_get(R,1,1) << endl;
+		// std::cout << "(R,1,2): " << gsl_matrix_get(R,1,2) << endl << endl;
+
+		// std::cout << "(R,2,0): " << gsl_matrix_get(R,2,0) << endl;
+		// std::cout << "(R,2,1): " << gsl_matrix_get(R,2,1) << endl;
+		// std::cout << "(R,2,2): " << gsl_matrix_get(R,2,2) << endl << endl;
+
+
+		// std::cout << "q[0]" << q[0] << endl;
+		// std::cout << "q[1]" << q[1] << endl;
+		// std::cout << "q[2]" << q[2] << endl;
+		// std::cout << "q[3]" << q[3] << endl;
+		// std::cout << "q[4]" << q[4] << endl;
+		// std::cout << "q[5]" << q[5] << endl;
 
 	}	
 	
