@@ -392,11 +392,11 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency	= 3;
+	double desired_frequency;	
 	double m = 1;
-	double k 					= pow(desired_frequency,2)*m;
-	double crictical_damping 	= 2*sqrt(k*m);
-	double c 					= 1*crictical_damping;
+	double k; 					
+	double crictical_damping;	
+	double c;				
 		
 	//PID controller gain parameters
 	Kp = 0.005;// Prefered between [0.005-0.006]
@@ -415,17 +415,13 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{	
-	
-
-
 		if (i<=250){
-			references[2] += 0.006;
+			references[2] += 0.015;
 		}
 		else{
 			references[2] = 0;
 		}
 		std::cout << i << endl;
-
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -459,11 +455,13 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	 	
 
 
-	 	// 	desired_frequency = 4;//*ArduinoFrequencyData;
-		// k = pow(desired_frequency, 2)*m;
-		// crictical_damping = 2*sqrt(k*m);
-		// c = 0.5*crictical_damping;
+	 	desired_frequency = ArduinoFrequencyData;
+		k = pow(desired_frequency, 2)*m;
+		crictical_damping = 2*sqrt(k*m);
+		c = 1*crictical_damping;
 
+
+		
 		
 		//Update equiptment gravity component.
 		bias_tool_TF[0] = bias_tool_TF[1] = bias_tool_TF[2] = bias_force[0] = bias_force[1] = bias_force[2] = 0;
