@@ -63,7 +63,7 @@ void vector_trans_base_tool(std::vector<double> q, double vector_in[3], double v
 void vector_trans_tool_base(std::vector<double> q, double vector_in[3], double vector_out[3]);
 void cross_product(const gsl_vector *u, const gsl_vector *v, gsl_vector *product);
 double triple_scalar_product(const gsl_vector *u, const gsl_vector *v, const gsl_vector *w);
-const vector<string> explode(const string& s, const char& c);
+vector<string> explode(const string& s, const char& c);
 void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_time);
 void rotate(gsl_vector *res,gsl_matrix *R, gsl_vector *inp,gsl_vector *t1,gsl_vector *t2);
 void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6]);

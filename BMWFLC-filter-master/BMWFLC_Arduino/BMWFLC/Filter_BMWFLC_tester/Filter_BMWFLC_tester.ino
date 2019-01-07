@@ -31,7 +31,7 @@ float y = 0; //filtered signal
 //--------------------------------------------------------
 void setup() {
   // initialize serial communications
-  Serial.begin(500000);
+  Serial.begin(230400);
   delay(1000); //relax...
   //Serial.println("Processor came out of reset.\n");
   InitBMWFLC();//initialize BMFLC
@@ -72,7 +72,7 @@ void loop() {
     timer_tick = false;
     
     s1 = SensorTwo.readFloatGyroY() + 5.1;
-    s2 = SensorOne.readFloatAccelX();
+    s2 = SensorOne.readFloatAccelZ();
 
     //filter
     y = BWMFLC(k, s1);
@@ -80,8 +80,8 @@ void loop() {
     //Serial.println(k);
     //plot to serial
     PlotFrequency();
-    //Serial.print(",");
-    //PlotSignal(s1);
+    Serial.print(",");
+    PlotSignal(s2);
     //PlotSignal(s2)
     //if(MAXK<k)
     //{stop_recording=true;}
@@ -109,7 +109,7 @@ void loop() {
 }
 void PlotFrequency()
 {
-  Serial.println(get_dominant_frequency_1(), 8);
+  Serial.print(get_dominant_frequency_1(), 8);
   //Serial.print(" ");
   //Serial.println(get_dominant_frequency_2(), 8);
 }

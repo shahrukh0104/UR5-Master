@@ -184,20 +184,19 @@ double triple_scalar_product(const gsl_vector *u, const gsl_vector *v, const gsl
         return result;
 }
 
-const vector<string> explode(const string& s, const char& c)
-{
-	string buff{""};
-	vector<string> v;
-	
-	for(auto n:s)
-	{
-		if(n != c) buff+=n; else
-		if(n == c && buff != "") { v.push_back(buff); buff = ""; }
-	}
-	if(buff != "") v.push_back(buff);
-	
-	return v;
+vector<string> split(string str, char delimiter) {
+  vector<string> internal;
+  stringstream ss(str); // Turn the string into a stream.
+  string tok;
+ 
+  while(getline(ss, tok, delimiter)) {
+    internal.push_back(tok);
+  }
+ 
+  return internal;
 }
+ 
+
 
 
 void solveInverseJacobian(std::vector<double> q, double vw[6], double qd[6])
@@ -264,7 +263,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "Force control initiated - starting data logging ..." << std::endl;
 
 	//START ARDUINO READ
-	cArduino arduino(ArduinoBaundRate::B500000bps);
+	cArduino arduino(ArduinoBaundRate::B230400bps);
 	if(!arduino.isOpen()){
 		std::cerr << "Can't open Arduino Uno" << endl;
 	}	
@@ -323,12 +322,10 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double start_time = ur5->rt_interface_->robot_state_->getTime();
 	std::vector<double> sq = ur5->rt_interface_->robot_state_->getQActual();
 	vector_trans_base_tool(sq, bias_tool_WF, bias_tool_TF);
-	//bias_tool_TF[0] += -3.121;
-	//bias_tool_TF[1] += -0.110176;
 
 
 	//STATIC F/T MOUNTING BIAS
-	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0], rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]+1};
+	double bias_mounting[3] = {rawFTdata[0]-bias_tool_TF[0]+1.5, rawFTdata[1]-bias_tool_TF[1], rawFTdata[2]-bias_tool_TF[2]};
 	double bias_force[3];
 	double bias_torque[3] = {rawFTdata[3], rawFTdata[4], rawFTdata[5]};
 	
@@ -339,18 +336,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double torque_tresh[3];
 
 	//ADMITTANCE CONTROLLER VARIABLES
-	double error_x_eq = 0;
-	double error_y_eq = 0;
-	double error_z_eq = 0;
-
 	double error_pos[3];
 	double error_pos_tool[3];
 
 	double x_acc;
 	double y_acc;
 	double z_acc;
-
-	
 
 	gsl_matrix *R = gsl_matrix_calloc(3,3);
 	gsl_vector *O = gsl_vector_alloc(3);
@@ -371,32 +362,25 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	double DESIREDYPOS = tfkin.O[1];
 	double DESIREDZPOS = tfkin.O[2];
 	
-	gsl_vector *Rx = gsl_vector_alloc(3);
-	gsl_vector *Ry = gsl_vector_alloc(3);
-	gsl_vector *Rz = gsl_vector_alloc(3);
+	// HANDNESS TEST VARIABLES
+	// gsl_vector *Rx = gsl_vector_alloc(3);
+	// gsl_vector *Ry = gsl_vector_alloc(3);
+	// gsl_vector *Rz = gsl_vector_alloc(3);
 
-	gsl_vector_set(Rx,0,gsl_matrix_get(R,0,0));
-	gsl_vector_set(Rx,1,gsl_matrix_get(R,0,1));
-	gsl_vector_set(Rx,2,gsl_matrix_get(R,0,2));
+	// gsl_vector_set(Rx,0,gsl_matrix_get(R,0,0));
+	// gsl_vector_set(Rx,1,gsl_matrix_get(R,0,1));
+	// gsl_vector_set(Rx,2,gsl_matrix_get(R,0,2));
 
-	gsl_vector_set(Ry,0,gsl_matrix_get(R,1,0));
-	gsl_vector_set(Ry,1,gsl_matrix_get(R,1,1));
-	gsl_vector_set(Ry,2,gsl_matrix_get(R,1,2));
+	// gsl_vector_set(Ry,0,gsl_matrix_get(R,1,0));
+	// gsl_vector_set(Ry,1,gsl_matrix_get(R,1,1));
+	// gsl_vector_set(Ry,2,gsl_matrix_get(R,1,2));
 
-	gsl_vector_set(Rz,0,gsl_matrix_get(R,2,0));
-	gsl_vector_set(Rz,1,gsl_matrix_get(R,2,1));
-	gsl_vector_set(Rz,2,gsl_matrix_get(R,2,2));
+	// gsl_vector_set(Rz,0,gsl_matrix_get(R,2,0));
+	// gsl_vector_set(Rz,1,gsl_matrix_get(R,2,1));
+	// gsl_vector_set(Rz,2,gsl_matrix_get(R,2,2));
 
-	double handed;
+	// double handed;
 
-	//FORCE/TORQUE VECTOR FOR LOW-PASS FILTERING
-	// std::vector<double> force_tresh_lp_x;
-	// std::vector<double> force_tresh_lp_y;
-	// std::vector<double> force_tresh_lp_z;
-
-
-	// double RC = 1/(5*2*3.14);
-	// double alpha = 1/(RC + 1);
 
 
   	//ARDUINO DATA VARIABLE/VECTOR ALLOCATION
@@ -408,13 +392,12 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency;
+	double desired_frequency	= 3;
 	double m = 1;
-	double k;
-	double crictical_damping;
-	double c;
-	
-
+	double k 					= pow(desired_frequency,2)*m;
+	double crictical_damping 	= 2*sqrt(k*m);
+	double c 					= 1*crictical_damping;
+		
 	//PID controller gain parameters
 	Kp = 0.005;// Prefered between [0.005-0.006]
 	//Ki = 0.00015; // Not prefered due to overshoot behaviour.
@@ -424,35 +407,24 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//Ki_T = 0.00007; // Not prefered due to steady-state error.
 	//Kd_T = 0.65; // Not prefered due to noise amplification.
 
+	std::string testString = "This,is,a,test";
+	std::vector<string> v = split(testString, ',');
+	std::cout << v[1] << endl;
+
+
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{	
-		//READ SERIAL DATA FROM ARDUINO
-		ArduinoString = arduino.read();
-	 	ArduinoSplitString = explode(ArduinoString, ',');
+	
 
-	 	//SPLIT AND CONVERT DATA TO DOUBLE TYPE 
-		ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
-	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
-	 	
-	 	std::cout << ArduinoString << endl;
-	 	std::cout << ArduinoSplitString[0] << endl;
-	 	//std::cout << ArduinoSplitString[1] << endl;
-	 	//std::cout << ArduinoFrequencyData << endl;
-	 	// std::cout << ArduinoAccelerometerData << endl << endl;
 
-	 	desired_frequency = ArduinoFrequencyData;
-		k = pow(desired_frequency, 2)*m; 
-		crictical_damping = 2*sqrt(k*m);
-		c = 1*crictical_damping; 
-
-		// if (i<=250){
-		// 	references[2] += 0.004;
-		// }
-		// else{
-		// 	references[2] = 0;
-		// }
-		// std::cout << i << endl;
+		if (i<=250){
+			references[2] += 0.006;
+		}
+		else{
+			references[2] = 0;
+		}
+		std::cout << i << endl;
 
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
@@ -469,6 +441,28 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		qd = ur5->rt_interface_->robot_state_->getQdActual();
 		ufwdkin(&tfkin,q.data(),apar,dpar);
 
+			
+		//READ SERIAL DATA FROM ARDUINO
+
+		ArduinoString = arduino.read();
+		//std::cout << ArduinoString << endl;
+
+
+	 	//SPLIT AND CONVERT DATA TO DOUBLE TYPE 
+		if (ArduinoString.length() == 22 || ArduinoString.length() == 23 || ArduinoString.length() == 24 || ArduinoString.length() == 25 ){
+			ArduinoSplitString = split(ArduinoString, ',');
+			//std::cout << ArduinoSplitString[0] << endl;
+			//std::cout << ArduinoSplitString[1] << endl;
+			ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
+	 	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
+		}
+	 	
+
+
+	 	// 	desired_frequency = 4;//*ArduinoFrequencyData;
+		// k = pow(desired_frequency, 2)*m;
+		// crictical_damping = 2*sqrt(k*m);
+		// c = 0.5*crictical_damping;
 
 		
 		//Update equiptment gravity component.
@@ -492,24 +486,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		force_tresh[0] = (1- exp(-pow(forces[0], 2)/pow(0.2, 2)))*forces[0];		 
 		force_tresh[1] = (1- exp(-pow(forces[1], 2)/pow(0.2, 2)))*forces[1];
 		force_tresh[2] = (1- exp(-pow(forces[2], 2)/pow(0.2, 2)))*forces[2];
-
-		//vector_trans_tool_base(q,force_tresh, force_tresh_base);
-		// //LOW-PASS FILTER FORCES
-		
-		// force_tresh_lp_x.push_back(force_tresh[0]);
-		// force_tresh_lp_y.push_back(force_tresh[1]);
-		// force_tresh_lp_z.push_back(force_tresh[2]);
-		
-		// if(i > 0){
-		// 	force_tresh_lp_x.push_back((alpha*(force_tresh[i])));
-		// 	force_tresh_lp_y.push_back(force_tresh_lp_y[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_y[i-1])));
-		// 	force_tresh_lp_z.push_back(force_tresh_lp_z[i-1] + (alpha*(force_tresh[i]-force_tresh_lp_z[i-1])));
-		
-	 	//  std::cout << "force_tresh[0]: " << force_tresh[0] << std::endl;
-		// 	std::cout << "force_tresh_lp_x: " << force_tresh_lp_x[i] << std::endl;
-		// 	std::cout << "Error F_x: " << error_Fx << std::endl;
-		// 	std::cout << "i: " << i << std::endl;
-		// }
 
 
 		//HANDNESS TEST
@@ -640,7 +616,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		//SOLVE AND SEND TO MANIPULATOR
 		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
 		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
-		vw[2] = 0;//vw[2] + z_acc*iteration_time;
+		vw[2] = vw[2] + z_acc*iteration_time;
 		vw[3] = 0;//u_Tx;
 		vw[4] = 0;//u_Ty;
 		vw[5] = 0;//u_Tz;
@@ -672,9 +648,9 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		<< rawFTdata[3] << " " << rawFTdata[4] << " " << rawFTdata[5] << " " 
 		<< forces[0] << " " << forces[1] << " " << forces[2] << " "
 		<< torques[0] << " " << torques[1] << " " << torques[2] << " " 
-		<< error_Fx << " " << error_Fy << " " << error_Fz << " " 
+		<< error_pos_tool[0] << " " << error_pos_tool[1] << " " << error_pos_tool[2] << " " 
 		<< error_Tx << " " << error_Ty << " " << error_Tz << " " 
-		<< u_Fx << " " << u_Fy << " " << u_Fz << " " 
+		<< references[0] << " " << references[1] << " " << references[2] << " " 
 		<< u_Tx << " " << u_Ty << " " << u_Tz << " " 
 		<< bias_force[0] << " " << bias_force[1] << " " << bias_force[2] << " "  
 		<< bias_tool_TF[0] << " " << bias_tool_TF[1] << " " << bias_tool_TF[2] << " " 

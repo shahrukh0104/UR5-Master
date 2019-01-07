@@ -9,7 +9,7 @@ Arduino information:
 
 	warning setting up port speed does not work :/ you nead to do in mannualy:
 
-		stty -F /dev/ttyACM0 cs8 500000 ignbrk -brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts
+		stty -F /dev/ttyACM1 cs8 230400 ignbrk -brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts
 
 Serial Conection Based On:
 	Gary Frerking   gary@frerking.org
@@ -35,6 +35,7 @@ enum ArduinoBaundRate{
 //B38400bps=38400
 //B57600bps=57600
   B115200bps=B115200,
+  B230400bps=B230400,
   B500000bps=B500000
 };
 
