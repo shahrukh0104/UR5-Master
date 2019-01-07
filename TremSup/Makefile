@@ -17,6 +17,7 @@ SOURCES = TremSup.cpp \
 	../ur_modern_driver-master/src/ur_communication.cpp \
 	../ur_modern_driver-master/src/ur_realtime_communication.cpp \
 	../cArduino-master/cArduino.cpp\
+	../CppStringSplit-master/source/split.cpp\
 	../force/force.cpp
 # default rule, to compile everything
 all: $(TARGET)

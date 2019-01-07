@@ -1,0 +1,16 @@
+#################
+## Visual Studio
+#################
+
+*.suo
+*.user
+*.sln.docstates
+*.sdf
+*.opensdf
+
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
 #include <unistd.h>
 #include <iostream>
 #include <stdint.h>
@@ -28,6 +29,7 @@
 #include "../ur_modern_driver-master/include/ur_driver.h"
 #include "../kinematics/ur_kin.h"
 #include "../cArduino-master/cArduino.h"
+#include "../CppStringSplit-master/include/split.h"
 
 #define PORT 49152 
 #define COMMAND 2 

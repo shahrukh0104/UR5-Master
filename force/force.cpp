@@ -264,18 +264,19 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "Force control initiated - starting data logging ..." << std::endl;
 
 	//START ARDUINO READ
-	// cArduino arduino(ArduinoBaundRate::B500000bps);
-	// if(!arduino.isOpen()){
-	// 	std::cerr << "Can't open Arduino Uno" << endl;
-	// }	
-	// std::cout << "Arduino Open At " << arduino.getDeviceName() << endl;
+	cArduino arduino(ArduinoBaundRate::B500000bps);
+	if(!arduino.isOpen()){
+		std::cerr << "Can't open Arduino Uno" << endl;
+	}	
+	std::cout << "Arduino Open At " << arduino.getDeviceName() << endl;
 	
 	//OPEN LOGGING FILES
 	std::ofstream forcelog;
 	std::ofstream accelerolog;
+	std::ofstream frequencylog;
 	forcelog.open("../data/logs/forcelog", std::ofstream::out);
-	//accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
-
+	accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
+	frequencylog.open("../data/logs/frequencylog", std::ofstream::out);
 	//DEFINE ITERATION AND TIME VARIABLES
 	int i = 0; 
 	double iteration_time = 0.008;
@@ -399,19 +400,19 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 
   	//ARDUINO DATA VARIABLE/VECTOR ALLOCATION
-	// std::vector<string> ArduinoSplitString;
-	// std::string ArduinoString;
-	// double ArduinoFrequencyData;
-	// double ArduinoAccelerometerData;
+	std::vector<string> ArduinoSplitString;
+	std::string ArduinoString;
+	double ArduinoFrequencyData;
+	double ArduinoAccelerometerData;
 	
 
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	double desired_frequency = 7;
+	double desired_frequency;
 	double m = 1;
-	double k = pow(desired_frequency, 2)*m; 
-	double crictical_damping = 2*sqrt(k*m);
-	double c = 0.2*crictical_damping; 
+	double k;
+	double crictical_damping;
+	double c;
 	
 
 	//PID controller gain parameters
@@ -427,20 +428,31 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	while(i<iter)
 	{	
 		//READ SERIAL DATA FROM ARDUINO
-		// ArduinoString = arduino.read();
-	 // 	ArduinoSplitString = explode(ArduinoString, ',');
+		ArduinoString = arduino.read();
+	 	ArduinoSplitString = explode(ArduinoString, ',');
 
-	 // 	//SPLIT AND CONVERT DATA TO DOUBLE TYPE 
-		// ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
-	 // 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
+	 	//SPLIT AND CONVERT DATA TO DOUBLE TYPE 
+		ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
+	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
+	 	
+	 	std::cout << ArduinoString << endl;
+	 	std::cout << ArduinoSplitString[0] << endl;
+	 	//std::cout << ArduinoSplitString[1] << endl;
+	 	//std::cout << ArduinoFrequencyData << endl;
+	 	// std::cout << ArduinoAccelerometerData << endl << endl;
 
-		if (i<=250){
-			references[0] += 0.004;
-		}
-		else{
-			references[0] = 0;
-		}
+	 	desired_frequency = ArduinoFrequencyData;
+		k = pow(desired_frequency, 2)*m; 
+		crictical_damping = 2*sqrt(k*m);
+		c = 1*crictical_damping; 
 
+		// if (i<=250){
+		// 	references[2] += 0.004;
+		// }
+		// else{
+		// 	references[2] = 0;
+		// }
+		// std::cout << i << endl;
 
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
@@ -628,7 +640,7 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		//SOLVE AND SEND TO MANIPULATOR
 		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
 		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
-		vw[2] = vw[2] + z_acc*iteration_time;
+		vw[2] = 0;//vw[2] + z_acc*iteration_time;
 		vw[3] = 0;//u_Tx;
 		vw[4] = 0;//u_Ty;
 		vw[5] = 0;//u_Tz;
@@ -675,7 +687,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		<< gsl_matrix_get(R,2,2) << " " << "\n\n\n\n";
 		
 		
-		//accelerolog << ArduinoAccelerometerData << endl;
+		accelerolog << ArduinoAccelerometerData << endl;
+		frequencylog << ArduinoFrequencyData << endl;
 
 		i += 1;
 		usleep(iteration_sleeptime);
@@ -705,5 +718,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	//stopFT(&forceID);
 	
 	forcelog.close();
-	//accelerolog.close();
+	accelerolog.close();
+	frequencylog.close();
 }

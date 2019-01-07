@@ -80,8 +80,8 @@ void loop() {
     //Serial.println(k);
     //plot to serial
     PlotFrequency();
-    Serial.print(",");
-    PlotSignal(s1);
+    //Serial.print(",");
+    //PlotSignal(s1);
     //PlotSignal(s2)
     //if(MAXK<k)
     //{stop_recording=true;}
@@ -109,7 +109,7 @@ void loop() {
 }
 void PlotFrequency()
 {
-  Serial.print(get_dominant_frequency_1(), 8);
+  Serial.println(get_dominant_frequency_1(), 8);
   //Serial.print(" ");
   //Serial.println(get_dominant_frequency_2(), 8);
 }
