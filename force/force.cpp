@@ -423,11 +423,21 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{	
-
+		//DIRAC PULSE TEST REFERENCES
 		references[2] = 0;
-		if (i >= 250 && i < 258){
+		if (i >= 250 && i < 255){
 			references[2] = 20;
 		}
+
+
+		//STEP RESPONSE TEST REFERENCES
+		// if (i <= 250){
+		// 	references[0] += 0.007;
+		// }
+		// else{
+		// 	references[0] = 0;
+		// }
+
 
 		std::cout << i << endl;
 		std::mutex msg_lock;
@@ -463,10 +473,10 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	 	
 
 
-	 	// desired_frequency = ArduinoFrequencyData;
+	 // 	desired_frequency = ArduinoFrequencyData;
 		// k = pow(desired_frequency, 2)*m;
 		// crictical_damping = 2*sqrt(k*m);
-		// c = 1*crictical_damping;
+		// c = 0.2*crictical_damping;
 
 
 		

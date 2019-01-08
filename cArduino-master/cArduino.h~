@@ -9,7 +9,7 @@ Arduino information:
 
 	warning setting up port speed does not work :/ you nead to do in mannualy:
 
-		stty -F /dev/ttyACM1 cs8 230400 ignbrk -brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts
+		stty -F /dev/ttyACM0 cs8 230400 ignbrk -brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts
 
 Serial Conection Based On:
 	Gary Frerking   gary@frerking.org

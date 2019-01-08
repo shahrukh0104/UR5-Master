@@ -71,7 +71,7 @@ void loop() {
   {
     timer_tick = false;
     
-    s1 = SensorTwo.readFloatGyroY() + 5.1;
+    s1 = SensorTwo.readFloatAccelZ() + 5.1;
     s2 = SensorOne.readFloatAccelZ();
 
     //filter
@@ -81,7 +81,7 @@ void loop() {
     //plot to serial
     PlotFrequency();
     Serial.print(",");
-    PlotSignal(s2);
+    PlotSignal(s1);
     //PlotSignal(s2)
     //if(MAXK<k)
     //{stop_recording=true;}
