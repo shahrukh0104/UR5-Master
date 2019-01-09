@@ -72,7 +72,7 @@ void loop() {
     timer_tick = false;
     
     s1 = SensorTwo.readFloatAccelZ() + 5.1;
-    s2 = SensorOne.readFloatAccelZ();
+    s2 = SensorOne.readFloatAccelZ()+ 5.1;
 
     //filter
     y = BWMFLC(k, s1);
@@ -81,8 +81,8 @@ void loop() {
     //plot to serial
     PlotFrequency();
     Serial.print(",");
-    PlotSignal(s1);
-    //PlotSignal(s2)
+    //PlotSignal(s1);
+    PlotSignal(s2);
     //if(MAXK<k)
     //{stop_recording=true;}
     //PlotSignal(s2);

@@ -276,6 +276,16 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	forcelog.open("../data/logs/forcelog", std::ofstream::out);
 	accelerolog.open("../data/logs/accelerolog", std::ofstream::out);
 	frequencylog.open("../data/logs/frequencylog", std::ofstream::out);
+
+
+	char ready;
+	while (ready != 'Y'|| ready != 'y'){
+		std::cout << "Press \"Y\" when you are ready";
+		std::cin >> ready;
+		if (ready == 'y' || ready == 'Y')
+			break;
+	}
+
 	//DEFINE ITERATION AND TIME VARIABLES
 	int i = 0; 
 	double iteration_time = 0.008;
@@ -392,17 +402,17 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
-	// double desired_frequency;	
-	// double m = 1;
-	// double k; 					
-	// double crictical_damping;	
-	// double c;		
+	double desired_frequency;	
+	double m = 0.3;
+	double k; 					
+	double crictical_damping;	
+	double c;		
 
-	double desired_frequency = 3;	
-	double m = 1;
-	double k = pow(desired_frequency, 2)*m; 					
-	double crictical_damping = 2*sqrt(k*m);
-	double c = 1*crictical_damping;		
+	// double desired_frequency = 15;	
+	// double m = 1;
+	// double k = pow(desired_frequency, 2)*m; 					
+	// double crictical_damping = 2*sqrt(k*m);
+	// double c = 0.25*crictical_damping;		
 		
 		
 		
@@ -419,15 +429,15 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	std::vector<string> v = split(testString, ',');
 	std::cout << v[1] << endl;
 
-
+	
 	std::cout << "======================== FORCE CONTROL ACTIVE ========================" << std::endl;
 	while(i<iter)
 	{	
 		//DIRAC PULSE TEST REFERENCES
-		references[2] = 0;
-		if (i >= 250 && i < 255){
-			references[2] = 20;
-		}
+		// references[2] = 0;
+		// if (i >= 250 && i < 255){
+		// 	references[2] = 20;
+		// }
 
 
 		//STEP RESPONSE TEST REFERENCES
@@ -438,8 +448,6 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		// 	references[0] = 0;
 		// }
 
-
-		std::cout << i << endl;
 		std::mutex msg_lock;
 		std::unique_lock<std::mutex> locker(msg_lock);
 		while (!ur5->rt_interface_->robot_state_->getDataPublished())
@@ -469,14 +477,15 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 			//std::cout << ArduinoSplitString[1] << endl;
 			ArduinoFrequencyData = atof(ArduinoSplitString[0].c_str());
 	 	 	ArduinoAccelerometerData = atof(ArduinoSplitString[1].c_str());
+	 	 	std::cout << ArduinoAccelerometerData << endl;
 		}
 	 	
 
 
-	 // 	desired_frequency = ArduinoFrequencyData;
-		// k = pow(desired_frequency, 2)*m;
-		// crictical_damping = 2*sqrt(k*m);
-		// c = 0.2*crictical_damping;
+	 	desired_frequency = 4*ArduinoFrequencyData;
+		k = pow(desired_frequency, 2)*m;
+		crictical_damping = 2*sqrt(k*m);
+		c = 1*crictical_damping;
 
 
 		
@@ -630,8 +639,8 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 		z_acc = (1.0/m)*(-c*vw[2] - k*error_pos_tool[2] + force_tresh[2] + references[2]); 
 
 		//SOLVE AND SEND TO MANIPULATOR
-		vw[0] = 0;//vw[0] + x_acc*iteration_time; 
-		vw[1] = 0;//vw[1] + y_acc*iteration_time;  
+		vw[0] = vw[0] + x_acc*iteration_time; 
+		vw[1] = vw[1] + y_acc*iteration_time;  
 		vw[2] = vw[2] + z_acc*iteration_time;
 		vw[3] = 0;//u_Tx;
 		vw[4] = 0;//u_Ty;
