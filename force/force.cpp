@@ -403,16 +403,16 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	
 	//MASS-SPRING-DAMPER COEFFICIENTS
 	double desired_frequency;	
-	double m = 0.3;
+	double m = 1;
 	double k; 					
 	double crictical_damping;	
 	double c;		
 
-	// double desired_frequency = 15;	
+	// double desired_frequency = 10;	
 	// double m = 1;
 	// double k = pow(desired_frequency, 2)*m; 					
 	// double crictical_damping = 2*sqrt(k*m);
-	// double c = 0.25*crictical_damping;		
+	// double c = 0.6*crictical_damping;		
 		
 		
 		
@@ -434,18 +434,18 @@ void forceControl(UrDriver *ur5, std::condition_variable *rt_msg_cond_, int run_
 	while(i<iter)
 	{	
 		//DIRAC PULSE TEST REFERENCES
-		// references[2] = 0;
+		// references[1] = 0;
 		// if (i >= 250 && i < 255){
-		// 	references[2] = 20;
+		// 	references[1] = 25;
 		// }
 
 
 		//STEP RESPONSE TEST REFERENCES
 		// if (i <= 250){
-		// 	references[0] += 0.007;
+		// 	references[1] += 0.01;
 		// }
 		// else{
-		// 	references[0] = 0;
+		// 	references[1] = 0;
 		// }
 
 		std::mutex msg_lock;
